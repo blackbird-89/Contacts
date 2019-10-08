@@ -20,7 +20,7 @@ span {
     align-items: center;
 }
 
-#contacts-form {
+.contacts-form {
     width: 60%;
 }
 
@@ -43,7 +43,7 @@ input {
     height: calc(1.5em + 0.75rem + 2px);
 }
 
-.add-contact {
+#add-contact {
     border: none;
     background-color: $primary;
     color: #fff;
@@ -92,6 +92,7 @@ input {
 
 .delete {
     background-color: $danger;
+    color: #fff;
 }
 
 .edit {
