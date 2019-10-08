@@ -82,3 +82,21 @@ input {
     font-weight: 400;
     font-size: 1.7rem;
 }
+
+.delete,
+.edit {
+    border: none;
+    height: 3rem;
+    width: 3rem;
+}
+
+.delete {
+    background-color: $danger;
+}
+
+.edit {
+    background-color: $primary;
+}
+.icon {
+    color: #fff;
+}
