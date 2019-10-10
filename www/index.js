@@ -181,43 +181,52 @@ const addContact = contact => {
   list.appendChild(row);
 };
 
-const displayContacts = () => {
+/**
+ * Adding a table row
+ */
+
+const addTableRow = item => {
   let list = document.querySelector("#contact-list");
+  let tableName = document.createElement("td");
+  let tablePhone = document.createElement("td");
+  let tableEmail = document.createElement("td");
+  let tableButton1 = document.createElement("td");
+  let tableButton2 = document.createElement("td");
+  let buttonEdit = document.createElement("button");
+  buttonEdit.className += "edit";
+  let buttonDelete = document.createElement("button");
+  buttonDelete.className += "delete";
+  tableButton1.appendChild(buttonEdit);
+  tableButton2.appendChild(buttonDelete);
+  buttonDelete.innerHTML = "X";
+  buttonEdit.innerHTML = `<i class="far fa-edit icon"></i>`;
+  tableName.innerHTML = item.name;
+  tablePhone.innerHTML = item.number;
+  tableEmail.innerHTML = item.email;
+  let row = document.createElement("tr");
+  row.setAttribute("id", item.id);
+  row.appendChild(tableName);
+  row.appendChild(tablePhone);
+  row.appendChild(tableEmail);
+  row.appendChild(tableButton1);
+  row.appendChild(tableButton2);
+  list.appendChild(row);
+};
 
+/***
+ * Displaying contacts from localStorage
+ */
+
+const displayContacts = () => {
   store.map(item => {
-    let tableName = document.createElement("td");
-    let tablePhone = document.createElement("td");
-    let tableEmail = document.createElement("td");
-    let tableButton1 = document.createElement("td");
-    let tableButton2 = document.createElement("td");
-    let buttonEdit = document.createElement("button");
-    buttonEdit.className += "edit";
-
-    let buttonDelete = document.createElement("button");
-    buttonDelete.className += "delete";
-
-    tableButton1.appendChild(buttonEdit);
-    tableButton2.appendChild(buttonDelete);
-    buttonDelete.innerHTML = "X";
-    buttonEdit.innerHTML = `<i class="far fa-edit icon"></i>`;
-    tableName.innerHTML = item.name;
-    tablePhone.innerHTML = item.number;
-    tableEmail.innerHTML = item.email;
-    let row = document.createElement("tr");
-
-    row.appendChild(tableName);
-    row.appendChild(tablePhone);
-    row.appendChild(tableEmail);
-    row.appendChild(tableButton1);
-    row.appendChild(tableButton2);
-
-    list.appendChild(row);
+    addTableRow(item);
   });
 };
 
 /**
  * Clearing input fields after adding values to the DOM
  */
+
 const clearFields = () => {
   document.querySelector("#name").value = "";
   document.querySelector("#number").value = "";
@@ -236,7 +245,7 @@ const deleteContact = elem => {
 
 document.body.append(main);
 
-//submittting
+//submitting
 
 // function toSubmit(name, phone, email) {
 //   let newContact = new Contact(name, phone, email);
@@ -255,8 +264,6 @@ document.body.append(main);
 //   myForm.reset();
 // });
 
-// let phoneBook = [];
-
 /**
  * Adding event listeners
  * and creating new contact
@@ -265,9 +272,6 @@ document.body.append(main);
 displayContacts();
 
 let ID = () => {
-  // Math.random should be unique because of its seeding algorithm.
-  // Convert it to base 36 (numbers + letters), and grab the first 9 characters
-  // after the decimal.
   return (
     "_" +
     Math.random()
@@ -276,51 +280,45 @@ let ID = () => {
   );
 };
 
+/**
+ * Adding new contact to local storage, on submit
+ */
+
 document.querySelector(".contacts-form").addEventListener("submit", e => {
   e.preventDefault();
-  //get form values
   const name = document.querySelector("#name").value;
   const number = document.querySelector("#number").value;
   const email = document.querySelector("#email").value;
-
-  //instantiate a contact
   const id = ID();
   const contact = new Contact(id, name, number, email);
-  // phoneBook = [...phoneBook, { ...contact }];
-
   myContacts.list = [{ ...contact }];
-
-  console.log(myContacts);
-
   store.push(contact);
   store.save();
-
   addContact(contact);
   clearFields();
 });
 
+const findID = id => {
+  let result = store.find(contact => {
+    return contact.id === id;
+  });
+  return result;
+};
+
 /**
  * Removing contacts from the DOM
- * event listener
+ * Deleting contact from local storage, on click
  */
+
 document.querySelector(".contacts-table").addEventListener("click", e => {
   deleteContact(e.target);
-
   let elem = e.target;
-
   if (elem.classList.contains("delete")) {
     let targetId = elem.parentElement.parentElement.id;
-    console.log(targetId, "id");
-    return store.filter(contact => {
-      for (let value of Object.values(contact)) {
-        if (value.includes(targetId)) {
-          console.log(contact, "value");
-          store.removeItem(contact);
-          return true;
-        }
-      }
-    });
-  } else {
-    return;
+    let itemToDelete = findID(targetId);
+    console.log(itemToDelete, "toDelete");
+    let index = store.indexOf(itemToDelete);
+    store.splice(index, 1);
+    store.save();
   }
 });
