@@ -1,3 +1,15 @@
+//markup
+let store;
+try {
+  store = JSON.parse(localStorage.store);
+} catch (e) {
+  store = [];
+}
+
+store.save = function() {
+  localStorage.store = JSON.stringify(this);
+};
+
 let header, main, footer;
 
 /* PROTOTYPE*/
@@ -151,6 +163,12 @@ const addContact = contact => {
   list.appendChild(row);
 };
 
+const deleteContact = elem => {
+  if (elem.classList.contains("delete")) {
+    elem.parentElement.parentElement.remove();
+  }
+};
+
 document.body.append(main);
 
 //submittting
@@ -185,10 +203,22 @@ document.querySelector(".contacts-form").addEventListener("submit", e => {
   const number = document.querySelector("#number").value;
   const email = document.querySelector("#email").value;
 
-  //instantiate a book
+  //instantiate a contact
   const contact = new Contact(name, number, email);
+  store.push(contact);
+  store.save();
+  // store.save();
+
+  // console.log(store.contact, "local");
+
   console.log(contact, "contact");
 
   addContact(contact);
+
   clearFields();
+});
+
+//removing
+document.querySelector(".contacts-table").addEventListener("click", e => {
+  deleteContact(e.target);
 });
