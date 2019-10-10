@@ -1,4 +1,7 @@
-//markup
+/***********
+ * Setting up local storage
+ */
+
 let store;
 try {
   store = JSON.parse(localStorage.store);
@@ -28,16 +31,28 @@ let header, main, footer;
 //   return newContact;
 // }
 
-//Class
+/***********
+ * Classes
+ */
+class ContactsBook {
+  list = [];
+}
+
+let myContacts = new ContactsBook();
+console.log(myContacts, "contacts");
+
 class Contact {
-  constructor(name, number, email) {
+  constructor(id, name, number, email) {
+    this.id = id;
     this.name = name;
     this.number = number;
     this.email = email;
   }
 }
 
-//create markup
+/***********
+ * Creating markup
+ */
 
 const createNewElement = (elem, className) => {
   let newEl = document.createElement(elem);
@@ -52,13 +67,13 @@ let container, mainHeading, myForm;
 container = createNewElement("div", "container");
 mainHeading = createNewElement("h1", "");
 mainHeading.innerHTML = `<i class="fas fa-book-open text-primary"></i
->My<span>Contact</span>List
+> My<span>Contact</span>List
 `;
 myForm = createNewElement("form", "contacts-form");
 container.append(mainHeading, myForm);
 main.append(container);
 
-//Add inputs to the form
+//Creating labels
 const createLabels = id => {
   let label = document.createElement("label");
   label.htmlFor = id;
@@ -66,10 +81,11 @@ const createLabels = id => {
   return label;
 };
 
+//Creating inputs
 let inputTags = [
   ["text", "name"],
   ["text", "number"],
-  ["email", "email"],
+  ["text", "email"],
   ["submit", "add-contact", ""]
 ];
 
@@ -107,21 +123,18 @@ for (let i = 0; i < labelTags.length; i++) {
   labels.push(newLabel);
 }
 
+//Craeting divs for input fields
 let divsInForm = 4;
 let divs = [];
 for (let i = 0; i < divsInForm; i++) {
   let div = createNewElement("div", "form-group");
-
   div.appendChild(labels[i]);
   div.appendChild(inputs[i]);
-
   myForm.appendChild(div);
-  //   console.log(div, "div");
-  //   let classDiv = document.getElementsByClassName("form-group");
   divs.push(div);
 }
 
-//creating table for contacts
+//Creating table for contacts
 
 let myTable, tblHead, tblRow, tblBody;
 
@@ -137,7 +150,6 @@ let thNum = 5;
 let categories = [];
 for (let i = 0; i < thNum; i++) {
   let category = document.createElement("th");
-
   tblRow.appendChild(category);
   categories.push(category);
 }
@@ -148,9 +160,14 @@ categories[2].innerHTML = "Email";
 
 container.append(myTable);
 
+/**
+ * Adding contacts to the DOM
+ */
+
 const addContact = contact => {
   let list = document.querySelector("#contact-list");
   let row = document.createElement("tr");
+  row.setAttribute("id", contact.id);
   row.innerHTML = `
   <td>${contact.name}</td>
     <td>${contact.number}</td>
@@ -160,8 +177,56 @@ const addContact = contact => {
   </td>
   <td><button class="delete">X</button></td>
   `;
+
   list.appendChild(row);
 };
+
+const displayContacts = () => {
+  let list = document.querySelector("#contact-list");
+
+  store.map(item => {
+    let tableName = document.createElement("td");
+    let tablePhone = document.createElement("td");
+    let tableEmail = document.createElement("td");
+    let tableButton1 = document.createElement("td");
+    let tableButton2 = document.createElement("td");
+    let buttonEdit = document.createElement("button");
+    buttonEdit.className += "edit";
+
+    let buttonDelete = document.createElement("button");
+    buttonDelete.className += "delete";
+
+    tableButton1.appendChild(buttonEdit);
+    tableButton2.appendChild(buttonDelete);
+    buttonDelete.innerHTML = "X";
+    buttonEdit.innerHTML = `<i class="far fa-edit icon"></i>`;
+    tableName.innerHTML = item.name;
+    tablePhone.innerHTML = item.number;
+    tableEmail.innerHTML = item.email;
+    let row = document.createElement("tr");
+
+    row.appendChild(tableName);
+    row.appendChild(tablePhone);
+    row.appendChild(tableEmail);
+    row.appendChild(tableButton1);
+    row.appendChild(tableButton2);
+
+    list.appendChild(row);
+  });
+};
+
+/**
+ * Clearing input fields after adding values to the DOM
+ */
+const clearFields = () => {
+  document.querySelector("#name").value = "";
+  document.querySelector("#number").value = "";
+  document.querySelector("#email").value = "";
+};
+
+/**
+ * Removing contacts from the DOM
+ */
 
 const deleteContact = elem => {
   if (elem.classList.contains("delete")) {
@@ -190,10 +255,25 @@ document.body.append(main);
 //   myForm.reset();
 // });
 
-const clearFields = () => {
-  document.querySelector("#name").value = "";
-  document.querySelector("#number").value = "";
-  document.querySelector("#email").value = "";
+// let phoneBook = [];
+
+/**
+ * Adding event listeners
+ * and creating new contact
+ */
+
+displayContacts();
+
+let ID = () => {
+  // Math.random should be unique because of its seeding algorithm.
+  // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+  // after the decimal.
+  return (
+    "_" +
+    Math.random()
+      .toString(36)
+      .substr(2, 9)
+  );
 };
 
 document.querySelector(".contacts-form").addEventListener("submit", e => {
@@ -204,21 +284,43 @@ document.querySelector(".contacts-form").addEventListener("submit", e => {
   const email = document.querySelector("#email").value;
 
   //instantiate a contact
-  const contact = new Contact(name, number, email);
+  const id = ID();
+  const contact = new Contact(id, name, number, email);
+  // phoneBook = [...phoneBook, { ...contact }];
+
+  myContacts.list = [{ ...contact }];
+
+  console.log(myContacts);
+
   store.push(contact);
   store.save();
-  // store.save();
-
-  // console.log(store.contact, "local");
-
-  console.log(contact, "contact");
 
   addContact(contact);
-
   clearFields();
 });
 
-//removing
+/**
+ * Removing contacts from the DOM
+ * event listener
+ */
 document.querySelector(".contacts-table").addEventListener("click", e => {
   deleteContact(e.target);
+
+  let elem = e.target;
+
+  if (elem.classList.contains("delete")) {
+    let targetId = elem.parentElement.parentElement.id;
+    console.log(targetId, "id");
+    return store.filter(contact => {
+      for (let value of Object.values(contact)) {
+        if (value.includes(targetId)) {
+          console.log(contact, "value");
+          store.removeItem(contact);
+          return true;
+        }
+      }
+    });
+  } else {
+    return;
+  }
 });
