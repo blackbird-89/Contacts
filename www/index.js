@@ -1,6 +1,6 @@
-window.onload = () => {
-  document.body.append(main);
-};
+// window.onload = () => {
+//   document.body.append(main);
+// };
 
 /***********
  * Setting up local storage
@@ -49,6 +49,7 @@ class Contact {
     this.name = name;
     this.number = number;
     this.email = email;
+    // this.history = [];
   }
 }
 
@@ -65,6 +66,7 @@ const createNewElement = (elem, className) => {
 };
 
 main = document.createElement("main");
+main.setAttribute("id", "content");
 
 //Create main heading and form
 let container, mainHeading, myForm;
@@ -232,7 +234,6 @@ const addTableRow = item => {
 
 document.body.append(header);
 document.body.append(main);
-main.setAttribute("id", "content");
 
 /**
  * Adding contacts to the DOM
@@ -355,9 +356,18 @@ document.querySelector(".contacts-table").addEventListener("click", e => {
   if (elem.classList.contains("delete")) {
     let targetId = elem.parentElement.parentElement.id;
     let itemToDelete = findID(targetId);
-    console.log(itemToDelete, "toDelete");
+    // console.log(itemToDelete, "toDelete");
     let index = store.indexOf(itemToDelete);
     store.splice(index, 1);
     store.save();
   }
 });
+
+// const editContact
+
+// document.querySelector(".contacts-table").addEventListener("click", e => {
+//   let elem = e.target;
+//   if (elem.classList.contains("edit")) {
+//     console.log(elem, "the elemen");
+//   }
+// });
