@@ -1,3 +1,7 @@
+window.onload = () => {
+  document.body.append(main);
+};
+
 /***********
  * Setting up local storage
  */
@@ -12,8 +16,6 @@ try {
 store.save = function() {
   localStorage.store = JSON.stringify(this);
 };
-
-let header, main, footer;
 
 /* PROTOTYPE*/
 
@@ -34,12 +36,12 @@ let header, main, footer;
 /***********
  * Classes
  */
-class ContactsBook {
-  list = [];
-}
+// class ContactsBook {
+//   list = [];
+// }
 
-let myContacts = new ContactsBook();
-console.log(myContacts, "contacts");
+// let myContacts = new ContactsBook();
+// console.log(myContacts, "contacts");
 
 class Contact {
   constructor(id, name, number, email) {
@@ -54,6 +56,8 @@ class Contact {
  * Creating markup
  */
 
+let header, main, footer;
+
 const createNewElement = (elem, className) => {
   let newEl = document.createElement(elem);
   newEl.className += className;
@@ -64,14 +68,52 @@ main = document.createElement("main");
 
 //Create main heading and form
 let container, mainHeading, myForm;
+let containerRouter = createNewElement("div", "route1");
 container = createNewElement("div", "container");
+containerRouter.setAttribute("id", "home");
+
 mainHeading = createNewElement("h1", "");
 mainHeading.innerHTML = `<i class="fas fa-book-open text-primary"></i
 > My<span>Contact</span>List
 `;
 myForm = createNewElement("form", "contacts-form");
 container.append(mainHeading, myForm);
-main.append(container);
+containerRouter.append(container);
+main.append(containerRouter);
+// main.append(container);
+
+//creating another view**************************************'
+/////
+///////
+let view = createNewElement("div", "route2");
+view.setAttribute("id", "view");
+headingView = createNewElement("h1", "");
+headingView.innerHTML = `<i class="fas fa-book-open text-primary"></i
+> View</span>List
+`;
+view.appendChild(headingView);
+
+main.append(view);
+
+//buttons to navigate***************************************************************buttons
+header = createNewElement("header", "");
+let buttonHome = createNewElement("button", "button-home");
+buttonHome.innerHTML = "Home";
+let buttonView = createNewElement("button", "button-view");
+buttonView.innerHTML = "View";
+let divHeader = createNewElement("div", "header-container");
+divHeader.appendChild(buttonHome);
+divHeader.appendChild(buttonView);
+header.appendChild(divHeader);
+
+//navigating
+buttonHome.addEventListener("click", () => {
+  onNavigate("/");
+});
+
+buttonView.addEventListener("click", () => {
+  onNavigate("/contact");
+});
 
 //Creating labels
 const createLabels = id => {
@@ -137,7 +179,6 @@ for (let i = 0; i < divsInForm; i++) {
 //Creating table for contacts
 
 let myTable, tblHead, tblRow, tblBody;
-
 myTable = createNewElement("table", "contacts-table");
 tblHead = document.createElement("thead");
 tblRow = document.createElement("tr");
@@ -145,7 +186,6 @@ tblBody = document.createElement("tbody");
 tblBody.id = "contact-list";
 tblHead.append(tblRow);
 myTable.append(tblHead, tblBody);
-
 let thNum = 5;
 let categories = [];
 for (let i = 0; i < thNum; i++) {
@@ -153,33 +193,10 @@ for (let i = 0; i < thNum; i++) {
   tblRow.appendChild(category);
   categories.push(category);
 }
-
 categories[0].innerHTML = "Name";
 categories[1].innerHTML = "Phone";
 categories[2].innerHTML = "Email";
-
 container.append(myTable);
-
-/**
- * Adding contacts to the DOM
- */
-
-const addContact = contact => {
-  let list = document.querySelector("#contact-list");
-  let row = document.createElement("tr");
-  row.setAttribute("id", contact.id);
-  row.innerHTML = `
-  <td>${contact.name}</td>
-    <td>${contact.number}</td>
-    <td>${contact.email}</td>
-    <td>
-    <button class="edit"><i class="far fa-edit icon"></i></button>
-  </td>
-  <td><button class="delete">X</button></td>
-  `;
-
-  list.appendChild(row);
-};
 
 /**
  * Adding a table row
@@ -213,6 +230,30 @@ const addTableRow = item => {
   list.appendChild(row);
 };
 
+document.body.append(header);
+document.body.append(main);
+main.setAttribute("id", "content");
+
+/**
+ * Adding contacts to the DOM
+ */
+
+const addContact = contact => {
+  let list = document.querySelector("#contact-list");
+  let row = document.createElement("tr");
+  row.setAttribute("id", contact.id);
+  row.innerHTML = `
+  <td>${contact.name}</td>
+    <td>${contact.number}</td>
+    <td>${contact.email}</td>
+    <td>
+    <button class="edit"><i class="far fa-edit icon"></i></button>
+  </td>
+  <td><button class="delete">X</button></td>
+  `;
+  list.appendChild(row);
+};
+
 /***
  * Displaying contacts from localStorage
  */
@@ -242,8 +283,6 @@ const deleteContact = elem => {
     elem.parentElement.parentElement.remove();
   }
 };
-
-document.body.append(main);
 
 //submitting
 
@@ -291,7 +330,7 @@ document.querySelector(".contacts-form").addEventListener("submit", e => {
   const email = document.querySelector("#email").value;
   const id = ID();
   const contact = new Contact(id, name, number, email);
-  myContacts.list = [{ ...contact }];
+  //   myContacts.list = [{ ...contact }];
   store.push(contact);
   store.save();
   addContact(contact);
