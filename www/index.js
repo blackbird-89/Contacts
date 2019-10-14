@@ -1,3 +1,7 @@
+/***
+ * Event delegation
+ */
+
 const [listen, unlisten] = (() => {
   let listeningOnType = {};
   let listeners = [];
@@ -126,6 +130,27 @@ headingView.innerHTML = `<i class="fas fa-book-open text-primary"></i
 > View</span>List
 `;
 view.appendChild(headingView);
+let containerContact = createNewElement("div", "container-contact");
+
+let contactTable, conTblHead, conTblRow, conTblBody;
+contactTable = createNewElement("table", "contact-history");
+conTblHead = document.createElement("thead");
+conTblRow = document.createElement("tr");
+conTblBody = document.createElement("tbody");
+conTblBody.id = "contact-history";
+conTblHead.append(conTblRow);
+contactTable.append(conTblHead, conTblBody);
+let thNumer = 5;
+let tableItems = [];
+for (let i = 0; i < thNumer; i++) {
+  let tableItem = document.createElement("th");
+  conTblRow.appendChild(tableItem);
+  tableItems.push(tableItem);
+}
+tableItems[0].innerHTML = "Name";
+tableItems[1].innerHTML = "Phone";
+tableItems[2].innerHTML = "Email";
+view.append(contactTable);
 
 main.append(view);
 
@@ -236,8 +261,8 @@ container.append(myTable);
  * Adding a table row
  */
 
-const addTableRow = item => {
-  let list = document.querySelector("#contact-list");
+const addTableRow = (item, id) => {
+  let list = document.querySelector(id);
   let tableName = document.createElement("td");
   let tablePhone = document.createElement("td");
   let tableEmail = document.createElement("td");
@@ -250,7 +275,7 @@ const addTableRow = item => {
   tableButton1.appendChild(buttonEdit);
   tableButton2.appendChild(buttonDelete);
   buttonDelete.innerHTML = "X";
-  buttonEdit.innerHTML = `<i class="far fa-edit icon"></i>`;
+  buttonEdit.innerHTML = "Edit";
   tableName.innerHTML = item.name;
   tablePhone.innerHTML = item.number;
   tableEmail.innerHTML = item.email;
@@ -280,12 +305,16 @@ const addContact = contact => {
     <td>${contact.number}</td>
     <td>${contact.email}</td>
     <td>
-    <button class="edit"><i class="far fa-edit icon"></i></button>
+    <button class="edit">Edit</button>
   </td>
   <td><button class="delete">X</button></td>
   `;
   list.appendChild(row);
 };
+
+{
+  /* <i class="edit far fa-edit icon "></i> */
+}
 
 /***
  * Displaying contacts from localStorage
@@ -293,7 +322,7 @@ const addContact = contact => {
 
 const displayContacts = () => {
   store.map(item => {
-    addTableRow(item);
+    addTableRow(item, "#contact-list");
   });
 };
 
@@ -356,14 +385,6 @@ const ID = () => {
  * Adding new contact to local storage, on submit
  */
 
-// We can listen
-// let listener1 = listen("click", ".info-text", e => {
-//   console.log("You clicked an .info-text");
-// });
-// let listener2 = listen("click", "button", e => {
-//   console.log("You clicked a button");
-// });
-
 let listener = listen("submit", ".contacts-form", e => {
   e.preventDefault();
   console.log("you clicke submit");
@@ -391,7 +412,7 @@ const findID = id => {
  * Deleting contact from local storage, on click
  */
 
-let listener2 = listen("click", ".contacts-table", e => {
+let listener2 = listen("click", ".delete", e => {
   deleteContact(e.target);
   console.log("from delete");
   let elem = e.target;
@@ -405,11 +426,15 @@ let listener2 = listen("click", ".contacts-table", e => {
   }
 });
 
-// const editContact
+//on edit sent to different route
+let onEdit = listen("click", ".edit", e => {
+  onNavigate("/contact");
 
-// document.querySelector(".contacts-table").addEventListener("click", e => {
-//   let elem = e.target;
-//   if (elem.classList.contains("edit")) {
-//     console.log(elem, "the elemen");
-//   }
-// });
+  console.log("edit");
+  console.log(e.target, "event");
+  console.log(e.target.parentElement.parentElement);
+  let id = e.target.parentElement.parentElement.id;
+  let contactToShow = findID(id);
+  console.log(contactToShow);
+  addTableRow(contactToShow, ".contact-history");
+});
