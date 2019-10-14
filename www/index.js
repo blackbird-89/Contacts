@@ -1,6 +1,38 @@
-// window.onload = () => {
-//   document.body.append(main);
-// };
+const [listen, unlisten] = (() => {
+  let listeningOnType = {};
+  let listeners = [];
+
+  function listen(eventType, cssSelector, func) {
+    // Register a "listener"
+    let listener = { eventType, cssSelector, func };
+    listeners.push(listener);
+    // If no listener on window[eventType] register a
+    // a real/raw js-listener
+    if (!listeningOnType[eventType]) {
+      // add event listener for this type on the whole window
+      window.addEventListener(eventType, e => {
+        listeners
+          .filter(x => x.eventType === eventType)
+          .forEach(listener => {
+            if (e.target.closest(listener.cssSelector)) {
+              listener.func(e);
+            }
+          });
+      });
+      listeningOnType[eventType] = true;
+    }
+    return listener;
+  }
+
+  function unlisten(listener) {
+    listeners.splice(listeners.indexOf(listener), 1);
+  }
+
+  return [listen, unlisten];
+})();
+
+// We can unlisten - try commenting in these lines:
+// unlisten(listener1);
 
 /***********
  * Setting up local storage
@@ -324,8 +356,17 @@ const ID = () => {
  * Adding new contact to local storage, on submit
  */
 
-document.querySelector(".contacts-form").addEventListener("submit", e => {
+// We can listen
+// let listener1 = listen("click", ".info-text", e => {
+//   console.log("You clicked an .info-text");
+// });
+// let listener2 = listen("click", "button", e => {
+//   console.log("You clicked a button");
+// });
+
+let listener = listen("submit", ".contacts-form", e => {
   e.preventDefault();
+  console.log("you clicke submit");
   const name = document.querySelector("#name").value;
   const number = document.querySelector("#number").value;
   const email = document.querySelector("#email").value;
@@ -350,8 +391,9 @@ const findID = id => {
  * Deleting contact from local storage, on click
  */
 
-document.querySelector(".contacts-table").addEventListener("click", e => {
+let listener2 = listen("click", ".contacts-table", e => {
   deleteContact(e.target);
+  console.log("from delete");
   let elem = e.target;
   if (elem.classList.contains("delete")) {
     let targetId = elem.parentElement.parentElement.id;
