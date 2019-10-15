@@ -85,7 +85,7 @@ class Contact {
     this.name = name;
     this.number = number;
     this.email = email;
-    // this.history = [];
+    this.history = [];
   }
 }
 
@@ -120,12 +120,12 @@ containerRouter.append(container);
 main.append(containerRouter);
 // main.append(container);
 
-//creating another view**************************************'
+//creating Contact view**************************************'
 /////
 ///////
 let view = createNewElement("div", "route2");
 view.setAttribute("id", "view");
-headingView = createNewElement("h1", "");
+let headingView = createNewElement("h1", "");
 headingView.innerHTML = `<i class="fas fa-book-open text-primary"></i
 > View</span>List
 `;
@@ -150,7 +150,9 @@ for (let i = 0; i < thNumer; i++) {
 tableItems[0].innerHTML = "Name";
 tableItems[1].innerHTML = "Phone";
 tableItems[2].innerHTML = "Email";
-view.append(contactTable);
+
+containerContact.append(contactTable);
+view.append(containerContact);
 
 main.append(view);
 
@@ -436,5 +438,16 @@ let onEdit = listen("click", ".edit", e => {
   let id = e.target.parentElement.parentElement.id;
   let contactToShow = findID(id);
   console.log(contactToShow);
+  let heading = createNewElement("h2", "heading-contact");
+  heading.innerHTML = contactToShow.name;
+
   addTableRow(contactToShow, ".contact-history");
 });
+
+// / let headingView = createNewElement("h1", "");
+// headingView.innerHTML = `<i class="fas fa-book-open text-primary"></i
+// > View</span>List
+// `;
+// view.appendChild(headingView);
+
+//write again view component so that it shows on edit
