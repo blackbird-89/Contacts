@@ -429,6 +429,7 @@ let listener2 = listen("click", ".delete", e => {
   }
 });
 
+//Navigating on edit
 //on edit sent to different route
 // let onEdit = listen("click", ".edit", e => {
 //   onNavigate("/contact");
@@ -445,26 +446,60 @@ let listener2 = listen("click", ".delete", e => {
 //   addTableRow(contactToShow, ".contact-history");
 // });
 
-// let modalll = document.querySelector(".modal");
-// var trigger = document.querySelector(".ed");
 let closeButton = document.querySelector(".close-button");
 
-// function toggleModal() {
-//   modal.classList.toggle("show-modal");
-// }
+const editContact = listen("click", ".edit", e => {
+  console.log(e.target, "target");
+  console.log(e.target.parentElement.parentElement.id);
+  let id = e.target.parentElement.parentElement.id;
+  toggleModal(id);
+  let contactToEdit = findID(id);
+  console.log(contactToEdit);
+  inputsModal[0].value = contactToEdit.name;
+  inputsModal[1].value = contactToEdit.number;
+  inputsModal[2].value = contactToEdit.email;
+  console.log(inputsModal[0].value, "value1");
+  console.log(inputsModal[1].value, "value2");
+  console.log(inputsModal[2].value, "value3");
+});
 
-// function windowOnClick(event) {
-//   if (event.target === modal) {
-//     toggleModal();
-//   }
-// }
+const saveEdit = listen("submit", ".form-modal", e => {
+  e.preventDefault();
 
-// trigger.addEventListener("click", toggleModal);
-// closeButton.addEventListener("click", toggleModal);
-// window.addEventListener("click", windowOnClick);
+  let id = e.target.parentElement.parentElement.id;
+  console.log(e.target, "target");
+  let contactToEdit = findID(id);
+  console.log(contactToEdit, " already existing contact");
+  let historyList = [];
+  if (
+    inputsModal[0].value === contactToEdit.name &&
+    inputsModal[1].value === contactToEdit.number &&
+    inputsModal[2].value === contactToEdit.email
+  ) {
+    return;
+  } else {
+    // historyList = [{ ...contactToEdit }];
+    let editedContact = {
+      name: inputsModal[0].value,
+      number: inputsModal[1].value,
+      email: inputsModal[2].value
+    };
+    contactToEdit.history = [...contactToEdit.history, { ...editedContact }];
+    console.log(contactToEdit, "beneath history");
 
-let onEdit = listen("click", ".edit", () => {
-  toggleModal();
+    let newVersion = Object.assign(contactToEdit, editedContact);
+    // contactToEdit.history = [{ ...contactToEdit }]; funkar
+    console.log(contactToEdit, "to edtis");
+    console.log(contactToEdit.history, "history");
+    let index = store.indexOf(contactToEdit);
+    let changeValue = document.getElementById(id);
+    changeValue.children[0].innerHTML = newVersion.name;
+    changeValue.children[1].innerHTML = newVersion.number;
+    changeValue.children[2].innerHTML = newVersion.email;
+    store.splice(index, 1, newVersion);
+    store.save();
+  }
+  toggleModal("");
 });
 
 // / let headingView = createNewElement("h1", "");
@@ -472,5 +507,3 @@ let onEdit = listen("click", ".edit", () => {
 // > View</span>List
 // `;
 // view.appendChild(headingView);
-
-//write again view component so that it shows on edit

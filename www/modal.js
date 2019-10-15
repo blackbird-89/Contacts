@@ -2,16 +2,11 @@
 
 let modal = createNewElement("div", "modal");
 let innerDiv = createNewElement("div", "modal-content");
-let headingModal = createNewElement("h3", "modal-heading");
-headingModal.innerHTML = "HEJ";
+
 let buttonModal = createNewElement("button", "close-button");
 buttonModal.innerHTML = "X";
 let formModal = createNewElement("form", "form-modal");
 
-innerDiv.appendChild(headingModal);
-innerDiv.appendChild(buttonModal);
-
-//Creating inputs
 let inputsModalTags = [
   ["text", "name"],
   ["text", "number"],
@@ -26,7 +21,7 @@ for (let i = 0; i < inputsModalTags.length; i++) {
   inputsModal.push(newInput);
 }
 
-inputsModal[3].value = "Spara";
+inputsModal[3].value = "Save";
 
 let labelTagsModal = [
   ["name", "label-name", "Name"],
@@ -38,7 +33,6 @@ let labelTagsModal = [
 let labelsModal = [];
 for (let i = 0; i < labelTagsModal.length; i++) {
   let newLabel = createLabels(labelTagsModal[i][0]);
-  console.log(labelTagsModal[i][i]);
   newLabel.className += labelTagsModal[i][1];
   newLabel.innerHTML = labelTagsModal[i][2];
   labelsModal.push(newLabel);
@@ -55,15 +49,21 @@ for (let i = 0; i < divsInForm; i++) {
   divsModal.push(div);
 }
 
+let headingModal = createNewElement("h3", "modal-heading");
+headingModal.innerHTML = "HEJ";
+
+innerDiv.appendChild(headingModal);
+innerDiv.appendChild(buttonModal);
 innerDiv.append(formModal);
 
 modal.append(innerDiv);
 document.body.append(modal);
 
-const toggleModal = () => {
+const toggleModal = id => {
   modal.classList.toggle("show-modal");
+  modal.id = id;
 };
 
 let closeModal = listen("click", ".close-button", () => {
-  toggleModal();
+  toggleModal("");
 });
