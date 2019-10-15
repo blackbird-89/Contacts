@@ -87,11 +87,23 @@ input {
   font-size: 1.7rem;
 }
 
+.intro-contact {
+  width: 60%;
+  text-align: left;
+  margin-left: 6rem;
+  margin-bottom: 3rem;
+  margin-top: 3rem;
+  font-family: "Lato", sans-serif;
+  font-size: 2rem;
+}
+
 .delete,
-.edit {
+.edit,
+.info {
   border: none;
   height: 3rem;
   width: 3rem;
+  cursor: pointer;
 }
 
 .delete {
@@ -101,6 +113,10 @@ input {
 
 .edit {
   background-color: $primary;
+}
+
+.info {
+  background-color: $color-grey-light-2;
 }
 .icon {
   color: #fff;

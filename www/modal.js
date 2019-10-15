@@ -50,7 +50,7 @@ for (let i = 0; i < divsInForm; i++) {
 }
 
 let headingModal = createNewElement("h3", "modal-heading");
-headingModal.innerHTML = "HEJ";
+headingModal.innerHTML = "Edit contact";
 
 innerDiv.appendChild(headingModal);
 innerDiv.appendChild(buttonModal);
@@ -64,6 +64,6 @@ const toggleModal = id => {
   modal.id = id;
 };
 
-let closeModal = listen("click", ".close-button", () => {
+const closeModal = listen("click", ".close-button", () => {
   toggleModal("");
 });
