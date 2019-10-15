@@ -292,6 +292,7 @@ const addTableRow = (item, id) => {
 };
 
 document.body.append(header);
+
 document.body.append(main);
 
 /**
@@ -429,19 +430,41 @@ let listener2 = listen("click", ".delete", e => {
 });
 
 //on edit sent to different route
-let onEdit = listen("click", ".edit", e => {
-  onNavigate("/contact");
+// let onEdit = listen("click", ".edit", e => {
+//   onNavigate("/contact");
 
-  console.log("edit");
-  console.log(e.target, "event");
-  console.log(e.target.parentElement.parentElement);
-  let id = e.target.parentElement.parentElement.id;
-  let contactToShow = findID(id);
-  console.log(contactToShow);
-  let heading = createNewElement("h2", "heading-contact");
-  heading.innerHTML = contactToShow.name;
+//   console.log("edit");
+//   console.log(e.target, "event");
+//   console.log(e.target.parentElement.parentElement);
+//   let id = e.target.parentElement.parentElement.id;
+//   let contactToShow = findID(id);
+//   console.log(contactToShow);
+//   let heading = createNewElement("h2", "heading-contact");
+//   heading.innerHTML = contactToShow.name;
 
-  addTableRow(contactToShow, ".contact-history");
+//   addTableRow(contactToShow, ".contact-history");
+// });
+
+// let modalll = document.querySelector(".modal");
+// var trigger = document.querySelector(".ed");
+let closeButton = document.querySelector(".close-button");
+
+// function toggleModal() {
+//   modal.classList.toggle("show-modal");
+// }
+
+// function windowOnClick(event) {
+//   if (event.target === modal) {
+//     toggleModal();
+//   }
+// }
+
+// trigger.addEventListener("click", toggleModal);
+// closeButton.addEventListener("click", toggleModal);
+// window.addEventListener("click", windowOnClick);
+
+let onEdit = listen("click", ".edit", () => {
+  toggleModal();
 });
 
 // / let headingView = createNewElement("h1", "");
