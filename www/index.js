@@ -320,23 +320,13 @@ const addTableRowInHistory = (item, id) => {
   let tableName = document.createElement("td");
   let tablePhone = document.createElement("td");
   let tableEmail = document.createElement("td");
-  let tableButton1 = document.createElement("td");
-  let tableButton2 = document.createElement("td");
   let tableButton3 = document.createElement("td");
 
-  let buttonEdit = document.createElement("button");
-  buttonEdit.className += "edit";
   let buttonReset = document.createElement("button");
   buttonReset.className += "reset";
 
-  let buttonDelete = document.createElement("button");
-  buttonDelete.className += "delete";
-  tableButton1.appendChild(buttonEdit);
-  tableButton2.appendChild(buttonDelete);
   tableButton3.appendChild(buttonReset);
 
-  buttonDelete.innerHTML = "X";
-  buttonEdit.innerHTML = "Edit";
   buttonReset.innerHTML = "Återställ";
   tableDate.innerHTML = item.date;
   tableName.innerHTML = item.name;
@@ -349,8 +339,6 @@ const addTableRowInHistory = (item, id) => {
   row.appendChild(tableName);
   row.appendChild(tablePhone);
   row.appendChild(tableEmail);
-  row.appendChild(tableButton1);
-  row.appendChild(tableButton2);
   row.appendChild(tableButton3);
 
   list.appendChild(row);
@@ -681,29 +669,18 @@ const resetContact = listen("click", ".reset", e => {
   store.save();
   refreshContactInfo();
   refreshTable(".contact-history");
+  let elem = document.querySelector(".intro-contact");
+  let alertInfo = createNewElement("p", "alertInfo");
+  alertInfo.innerHTML = "Updated";
+  elem.append(alertInfo);
   introContact(found);
-  //   //   console.log(contactToShow.history);
-  //   let history = contactToShow.history;
+  setTimeout(() => {
+    alertInfo.style.display = "none";
+  }, 3000);
+
   contactToShow.history.map(item => {
     addTableRowInHistory(item, ".contact-history");
   });
-  //   let currentIndex = history.length - 1;
-
-  //   let currentContact = history.findID(currentIndex);
-
-  //   let index = history.indexOf(timestamp);
 });
-
-// const displayContacts = () => {
-//     store.map(item => {
-//       addTableRow(item, "#contact-list");
-//     });
-//   };
-
-// / let headingView = createNewElement("h1", "");
-// headingView.innerHTML = `<i class="fas fa-book-open text-primary"></i
-// > View</span>List
-// `;
-// view.appendChild(headingView);
 
 //create render view!!!!!!!!
