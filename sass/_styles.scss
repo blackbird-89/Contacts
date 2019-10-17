@@ -122,6 +122,14 @@ input {
   color: #fff;
 }
 
+.reset {
+  border: none;
+  height: 3rem;
+  width: 6rem;
+  cursor: pointer;
+  background-color: $color-grey-light-2;
+}
+
 .modal {
   position: fixed;
   left: 0;

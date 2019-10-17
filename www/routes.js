@@ -18,5 +18,3 @@ let onNavigate = pathName => {
 window.onpopstate = () => {
   rootElem.innerHTML = routes[window.location.pathname].innerHTML;
 };
-
-// // // sections --show /hide

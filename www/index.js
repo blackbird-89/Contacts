@@ -55,19 +55,26 @@ store.save = function() {
 
 /* PROTOTYPE*/
 
-// const contactPrototype = {
-//   name: [],
-//   phone: [],
-//   email: []
-// };
+const contactPrototype = {
+  id: "",
+  date: "",
+  name: [],
+  phone: [],
+  email: [],
+  history: []
+};
 
-// function Contact(name, phone, email) {
-//   let newContact = Object.create(contactPrototype);
-//   newContact.name = name;
-//   newContact.phone = phone;
-//   newContact.email = email;
-//   return newContact;
-// }
+function Contact(id, date, name, number, email) {
+  let newContact = Object.create(contactPrototype);
+
+  newContact.id = id;
+  newContact.date = date;
+  newContact.name = name;
+  newContact.number = number;
+  newContact.email = email;
+  newContact.history = [];
+  return newContact;
+}
 
 /***********
  * Classes
@@ -79,16 +86,16 @@ store.save = function() {
 // let myContacts = new ContactsBook();
 // console.log(myContacts, "contacts");
 
-class Contact {
-  constructor(id, date, name, number, email) {
-    this.id = id;
-    this.date = date;
-    this.name = name;
-    this.number = number;
-    this.email = email;
-    this.history = [];
-  }
-}
+// class Contact {
+//   constructor(id, date, name, number, email) {
+//     this.id = id;
+//     this.date = date;
+//     this.name = name;
+//     this.number = number;
+//     this.email = email;
+//     this.history = [];
+//   }
+// }
 
 /***********
  * Creating markup
@@ -161,6 +168,10 @@ view.append(containerContact);
 
 main.append(view);
 
+window.onload = function() {
+  displayContacts();
+};
+
 //buttons to navigate***************************************************************buttons
 header = createNewElement("header", "");
 let buttonHome = createNewElement("button", "button-home");
@@ -175,6 +186,7 @@ header.appendChild(divHeader);
 //navigating
 buttonHome.addEventListener("click", () => {
   onNavigate("/");
+  displayContacts();
 });
 
 buttonView.addEventListener("click", () => {
@@ -266,7 +278,29 @@ container.append(myTable);
 
 /**
  * Adding a table row
+ *
+ *
  */
+
+const refreshContactInfo = () => {
+  let elem = document.querySelector(".intro-contact");
+  let heading = document.querySelector(".intro-contact-heading");
+  let phoneNumber = document.querySelector(".intro-contact-phone");
+  let email = document.querySelector(".intro-contact-email");
+
+  elem.removeChild(heading);
+  elem.removeChild(phoneNumber);
+  elem.removeChild(email);
+};
+
+const refreshTable = id => {
+  //   let row = document.querySelector(".row-contact");
+  let list = document.querySelector(id);
+  list.innerHTML = "";
+  //   for (let i = num; i < num.length; i++) {
+  //     list.removeChild(row);
+  //   }
+};
 const introContact = contact => {
   let elem = document.querySelector(".intro-contact");
   let heading = createNewElement("h2", "intro-contact-heading");
@@ -308,7 +342,7 @@ const addTableRowInHistory = (item, id) => {
   tableName.innerHTML = item.name;
   tablePhone.innerHTML = item.number;
   tableEmail.innerHTML = item.email;
-  let row = document.createElement("tr");
+  let row = document.createElement("tr", "row-contact");
   row.setAttribute("id", item.id);
 
   row.appendChild(tableDate);
@@ -344,7 +378,8 @@ const addTableRow = (item, id) => {
   tableButton3.appendChild(buttonInfo);
 
   buttonDelete.innerHTML = "X";
-  buttonEdit.innerHTML = "Edit";
+  buttonEdit.innerHTML = "edit";
+
   buttonInfo.innerHTML = "Info";
 
   tableName.innerHTML = item.name;
@@ -384,6 +419,7 @@ const addContact = contact => {
   <td><button class="delete">X</button></td>
   <td><button class="info">Info</button></td>
   `;
+
   list.appendChild(row);
 };
 
@@ -445,8 +481,6 @@ const deleteContact = elem => {
  * and creating new contact
  */
 
-displayContacts();
-
 const ID = () => {
   return (
     "_" +
@@ -478,6 +512,7 @@ let listener = listen("submit", ".contacts-form", e => {
   const date = new Date().toLocaleString();
   console.log(date, "date");
   const contact = new Contact(id, date, name, number, email);
+  console.log(contact, "contact");
   //   myContacts.list = [{ ...contact }];
   store.push(contact);
   store.save();
@@ -492,6 +527,9 @@ const findID = id => {
   return result;
 };
 
+// const findTimestamp = date => {
+//     let result = store.find(contact =>)
+// }
 /**
  * Removing contacts from the DOM
  * Deleting contact from local storage, on click
@@ -531,27 +569,27 @@ let listener2 = listen("click", ".delete", e => {
 let closeButton = document.querySelector(".close-button");
 
 const editContact = listen("click", ".edit", e => {
-  console.log(e.target, "target");
+  //   console.log(e.target, "target");
   console.log(e.target.parentElement.parentElement.id);
   let id = e.target.parentElement.parentElement.id;
   toggleModal(id);
   let contactToEdit = findID(id);
-  console.log(contactToEdit);
+  //   console.log(contactToEdit);
   inputsModal[0].value = contactToEdit.name;
   inputsModal[1].value = contactToEdit.number;
   inputsModal[2].value = contactToEdit.email;
-  console.log(inputsModal[0].value, "value1");
-  console.log(inputsModal[1].value, "value2");
-  console.log(inputsModal[2].value, "value3");
+  //   console.log(inputsModal[0].value, "value1");
+  //   console.log(inputsModal[1].value, "value2");
+  //   console.log(inputsModal[2].value, "value3");
 });
 
 const saveEdit = listen("submit", ".form-modal", e => {
   e.preventDefault();
 
   let id = e.target.parentElement.parentElement.id;
-  console.log(e.target, "target");
+  //   console.log(e.target, "target");
   let contactToEdit = findID(id);
-  console.log(contactToEdit, " already existing contact");
+  //   console.log(contactToEdit, " already existing contact");
   if (
     inputsModal[0].value === contactToEdit.name &&
     inputsModal[1].value === contactToEdit.number &&
@@ -561,13 +599,21 @@ const saveEdit = listen("submit", ".form-modal", e => {
   } else {
     // historyList = [{ ...contactToEdit }];
     let editedContact = {
+      id: contactToEdit.id,
       date: new Date().toLocaleString(),
       name: inputsModal[0].value,
       number: inputsModal[1].value,
       email: inputsModal[2].value
     };
 
-    contactToEdit.history = [...contactToEdit.history, { ...contactToEdit }];
+    console.log(contactToEdit, "contacttttttttttt");
+
+    contactToEdit.history = [...contactToEdit.history, { ...editedContact }];
+    // contactToEdit.history = [
+    //   ...contactToEdit.history,
+    //   { ...contactToEdit },
+    //   { ...editedContact }
+    // ];
 
     //history functioning
     // console.log(contactToEdit, "beneath history");
@@ -588,24 +634,64 @@ const saveEdit = listen("submit", ".form-modal", e => {
   toggleModal("");
 });
 
+//history
 const showInfo = listen("click", ".info", e => {
   onNavigate("/contact");
 
-  console.log(e.target, "event");
-  console.log(e.target.parentElement.parentElement);
+  //   console.log(e.target, "event");
+  //   console.log(e.target.parentElement.parentElement);
   let id = e.target.parentElement.parentElement.id;
   let contactToShow = findID(id);
-  console.log(contactToShow);
+  //   console.log(contactToShow);
   let content = document.querySelector(".container-contact");
-  console.log(content);
+  //   console.log(content);
 
   introContact(contactToShow);
-  console.log(contactToShow.history);
+  //   console.log(contactToShow.history);
   let history = contactToShow.history;
   history.map(item => {
     addTableRowInHistory(item, ".contact-history");
   });
   //   addTableRow(contactToShow, ".contact-history");
+
+  //add here that the last in list (history) shows
+});
+
+//reseting
+
+const findTimestamp = () => {};
+
+const resetContact = listen("click", ".reset", e => {
+  let id = e.target.parentElement.parentElement.id;
+  let timestamp =
+    e.target.parentElement.parentElement.childNodes[0].textContent;
+  let contactToShow = findID(id);
+  let history = contactToShow.history;
+  let found = history.find(contact => {
+    return contact.date === timestamp;
+  });
+
+  //last one -- need later for pointer
+  //   let currentContactIndex = history.length - 1;
+
+  //   let currentContact = history[currentContactIndex];
+
+  //update histort with resetted contact
+  contactToShow.history = [...contactToShow.history, { ...found }];
+  store.save();
+  refreshContactInfo();
+  refreshTable(".contact-history");
+  introContact(found);
+  //   //   console.log(contactToShow.history);
+  //   let history = contactToShow.history;
+  contactToShow.history.map(item => {
+    addTableRowInHistory(item, ".contact-history");
+  });
+  //   let currentIndex = history.length - 1;
+
+  //   let currentContact = history.findID(currentIndex);
+
+  //   let index = history.indexOf(timestamp);
 });
 
 // const displayContacts = () => {
@@ -619,3 +705,5 @@ const showInfo = listen("click", ".info", e => {
 // > View</span>List
 // `;
 // view.appendChild(headingView);
+
+//create render view!!!!!!!!
