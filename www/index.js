@@ -500,11 +500,13 @@ let listener = listen("submit", ".contacts-form", e => {
   const date = new Date().toLocaleString();
   console.log(date, "date");
   const contact = new Contact(id, date, name, number, email);
-  console.log(contact, "contact");
   //   myContacts.list = [{ ...contact }];
   store.push(contact);
+  contact.history = [...contact.history, { ...contact }];
+
   store.save();
   addContact(contact);
+  console.log(contact, "contact");
   clearFields();
 });
 
@@ -515,9 +517,6 @@ const findID = id => {
   return result;
 };
 
-// const findTimestamp = date => {
-//     let result = store.find(contact =>)
-// }
 /**
  * Removing contacts from the DOM
  * Deleting contact from local storage, on click
@@ -646,8 +645,6 @@ const showInfo = listen("click", ".info", e => {
 });
 
 //reseting
-
-const findTimestamp = () => {};
 
 const resetContact = listen("click", ".reset", e => {
   let id = e.target.parentElement.parentElement.id;
