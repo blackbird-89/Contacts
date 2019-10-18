@@ -203,29 +203,31 @@ const createLabels = id => {
 
 //Creating inputs
 let inputTags = [
-  ["text", "name"],
-  ["text", "number"],
-  ["text", "email"],
+  ["text", "name", "name"],
+  ["text", "number", "phone number"],
+  ["text", "email", "email"],
   ["submit", "add-contact", ""]
 ];
 
-const createInput = (type, name) => {
+const createInput = (type, name, placeholder) => {
   let input = document.createElement("input");
   input.type = type;
   input.name = name;
-  input.className += "form-input";
-  input.id = name;
+  input.className += "form-input" + " input" + name;
+  //   input.id = name;
+  input.placeholder = "Add " + placeholder;
   return input;
 };
 
 let inputs = [];
 
 for (let i = 0; i < inputTags.length; i++) {
-  let newInput = createInput(inputTags[i][0], inputTags[i][1]);
+  let newInput = createInput(inputTags[i][0], inputTags[i][1], inputTags[i][2]);
   inputs.push(newInput);
 }
 
-inputs[3].value = "Add contact";
+inputs[3].value = "Save contact";
+inputs[3].id = "add-contact";
 
 let labelTags = [
   ["name", "label-name", "Name"],
@@ -254,7 +256,53 @@ for (let i = 0; i < divsInForm; i++) {
   divs.push(div);
 }
 
+let neededDiv = main.querySelectorAll(".form-group");
+// console.log(neededDiv[0], "div");
+let addPhoneButton = createNewElement("span", "add-phone");
+addPhoneButton.innerHTML = "+";
+let addEmailButton = createNewElement("span", "add-email");
+
+addEmailButton.innerHTML = "+";
+
+neededDiv[1].appendChild(addPhoneButton);
+neededDiv[2].appendChild(addEmailButton);
+
+const addMorePhones = listen("click", ".add-phone", e => {
+  console.log(e.target.parentElement);
+  let elem = e.target.parentElement;
+  let inputField = createInput("text", "number", "phone number");
+  let removePhoneButton = createNewElement("span", "remove-phone");
+  removePhoneButton.innerHTML = "X";
+
+  elem.appendChild(inputField);
+  elem.appendChild(removePhoneButton);
+});
+
+const addMoreEmails = listen("click", ".add-email", e => {
+  console.log(e.target.parentElement);
+  let elem = e.target.parentElement;
+  let inputField = createInput("text", "email", "email");
+  let removeEmailButton = createNewElement("span", "remove-email");
+  removeEmailButton.innerHTML = "X";
+
+  elem.appendChild(inputField);
+  elem.appendChild(removeEmailButton);
+});
 //Creating table for contacts
+
+const deleteAddPhone = listen("click", ".remove-phone", e => {
+  let elem = e.target.previousSibling;
+  let elem2 = e.target;
+  elem.remove();
+  elem2.remove();
+});
+
+const deleteAddEmail = listen("click", ".remove-email", e => {
+  let elem = e.target.previousSibling;
+  let elem2 = e.target;
+  elem.remove();
+  elem2.remove();
+});
 
 let myTable, tblHead, tblRow, tblBody;
 myTable = createNewElement("table", "contacts-table");
@@ -346,8 +394,10 @@ const addTableRowInHistory = (item, id) => {
 
 const addTableRow = (item, id) => {
   let list = document.querySelector(id);
-  let tableName = document.createElement("td");
+  let row = document.createElement("tr");
   let tablePhone = document.createElement("td");
+
+  let tableName = document.createElement("td");
   let tableEmail = document.createElement("td");
   let tableButton1 = document.createElement("td");
   let tableButton2 = document.createElement("td");
@@ -371,12 +421,27 @@ const addTableRow = (item, id) => {
   buttonInfo.innerHTML = "Info";
 
   tableName.innerHTML = item.name;
-  tablePhone.innerHTML = item.number;
+  for (let i = 0; i < item.number.length; i++) {
+    if (Array.isArray(item.number)) {
+      let additional = document.createElement("td");
+      additional.innerHTML = item.number[i];
+      let mybr = document.createElement("br");
+      tablePhone.appendChild(mybr);
+      tablePhone.append(additional);
+    } else {
+      tablePhone.innerHTML = item.number;
+    }
+
+    // let breakEl = document.createElement("BR");
+    // tablePhone.innerHTML.append(breakEl);
+  }
+
   tableEmail.innerHTML = item.email;
-  let row = document.createElement("tr");
   row.setAttribute("id", item.id);
+
   row.appendChild(tableName);
   row.appendChild(tablePhone);
+
   row.appendChild(tableEmail);
   row.appendChild(tableButton1);
   row.appendChild(tableButton2);
@@ -388,27 +453,30 @@ const addTableRow = (item, id) => {
 document.body.append(header);
 
 document.body.append(main);
-
+let submitButton = main.querySelector("#add-contact");
+submitButton.className += " add-contact";
+console.log(submitButton, "submitbutton");
 /**
  * Adding contacts to the DOM
  */
 
 const addContact = contact => {
-  let list = document.querySelector("#contact-list");
-  let row = document.createElement("tr");
-  row.setAttribute("id", contact.id);
-  row.innerHTML = `
-  <td>${contact.name}</td>
-    <td>${contact.number}</td>
-    <td>${contact.email}</td>
-    <td>
-    <button class="edit">Edit</button>
-  </td>
-  <td><button class="delete">X</button></td>
-  <td><button class="info">Info</button></td>
-  `;
+  addTableRow(contact, "#contact-list");
+  //   let list = document.querySelector("#contact-list");
+  //   let row = document.createElement("tr");
+  //   row.setAttribute("id", contact.id);
+  //   row.innerHTML = `
+  //   <td>${contact.name}</td>
+  //     <td>${contact.number}</td>
+  //     <td>${contact.email}</td>
+  //     <td>
+  //     <button class="edit">Edit</button>
+  //   </td>
+  //   <td><button class="delete">X</button></td>
+  //   <td><button class="info">Info</button></td>
+  //   `;
 
-  list.appendChild(row);
+  //   list.appendChild(row);
 };
 
 {
@@ -490,16 +558,32 @@ const ID = () => {
  * Adding new contact to local storage, on submit
  */
 
-let listener = listen("submit", ".contacts-form", e => {
+let listener = listen("click", ".add-contact", e => {
   e.preventDefault();
-  console.log("you clicke submit");
-  const name = document.querySelector("#name").value;
-  const number = document.querySelector("#number").value;
-  const email = document.querySelector("#email").value;
-  const id = ID();
-  const date = new Date().toLocaleString();
+  let name = document.querySelector(".inputname").value;
+  let numbers = [];
+  numbers = main.querySelectorAll(".inputnumber");
+
+  let phoneNumber = [];
+
+  let stable = Array.from(numbers);
+
+  for (let item of stable) {
+    phoneNumber = [...phoneNumber, ...[item.value]];
+  }
+  let emails = main.querySelectorAll(".inputemail");
+  let emailAdress = [];
+  let stableEmail = Array.from(emails);
+  for (let item of stableEmail) {
+    console.log(item.value, "item");
+    emailAdress = [...emailAdress, ...[item.value]];
+  }
+  console.log(emailAdress);
+  //   let email = document.querySelector(".inputemail").value;
+  let id = ID();
+  let date = new Date().toLocaleString();
   console.log(date, "date");
-  const contact = new Contact(id, date, name, number, email);
+  let contact = new Contact(id, date, name, phoneNumber, emailAdress);
   //   myContacts.list = [{ ...contact }];
   store.push(contact);
   contact.history = [...contact.history, { ...contact }];
@@ -507,7 +591,7 @@ let listener = listen("submit", ".contacts-form", e => {
   store.save();
   addContact(contact);
   console.log(contact, "contact");
-  clearFields();
+  //   clearFields();
 });
 
 const findID = id => {
@@ -565,6 +649,7 @@ const editContact = listen("click", ".edit", e => {
   inputsModal[0].value = contactToEdit.name;
   inputsModal[1].value = contactToEdit.number;
   inputsModal[2].value = contactToEdit.email;
+
   //   console.log(inputsModal[0].value, "value1");
   //   console.log(inputsModal[1].value, "value2");
   //   console.log(inputsModal[2].value, "value3");

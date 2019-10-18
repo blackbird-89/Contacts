@@ -8,9 +8,9 @@ buttonModal.innerHTML = "X";
 let formModal = createNewElement("form", "form-modal");
 
 let inputsModalTags = [
-  ["text", "name"],
-  ["text", "number"],
-  ["text", "email"],
+  ["text", "name-modal"],
+  ["text", "number-modal"],
+  ["text", "email-modal"],
   ["submit", "save-contact", ""]
 ];
 
