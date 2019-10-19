@@ -122,8 +122,9 @@ mainHeading = createNewElement("h1", "");
 mainHeading.innerHTML = `<i class="fas fa-book-open text-primary"></i
 > My<span>Contact</span>List
 `;
-myForm = createNewElement("form", "contacts-form");
-container.append(mainHeading, myForm);
+
+container.append(mainHeading);
+
 containerRouter.append(container);
 main.append(containerRouter);
 // main.append(container);
@@ -131,6 +132,7 @@ main.append(containerRouter);
 //creating Contact view**************************************'
 /////
 ///////
+
 let view = createNewElement("div", "route2");
 let containerContact = createNewElement("div", "container-contact");
 
@@ -169,6 +171,7 @@ view.append(containerContact);
 main.append(view);
 
 window.onload = function() {
+  onNavigate("/");
   displayContacts();
 };
 
@@ -201,14 +204,6 @@ const createLabels = id => {
   return label;
 };
 
-//Creating inputs
-let inputTags = [
-  ["text", "name", "name"],
-  ["text", "number", "phone number"],
-  ["text", "email", "email"],
-  ["submit", "add-contact", ""]
-];
-
 const createInput = (type, name, placeholder) => {
   let input = document.createElement("input");
   input.type = type;
@@ -219,42 +214,59 @@ const createInput = (type, name, placeholder) => {
   return input;
 };
 
-let inputs = [];
+const createForm = () => {
+  myForm = createNewElement("form", "contacts-form");
+  container.append(mainHeading, myForm);
+  //Creating inputs
+  let inputTags = [
+    ["text", "name", "name"],
+    ["text", "number", "phone number"],
+    ["text", "email", "email"],
+    ["submit", "add-contact", ""]
+  ];
 
-for (let i = 0; i < inputTags.length; i++) {
-  let newInput = createInput(inputTags[i][0], inputTags[i][1], inputTags[i][2]);
-  inputs.push(newInput);
-}
+  let inputs = [];
 
-inputs[3].value = "Save contact";
-inputs[3].id = "add-contact";
+  for (let i = 0; i < inputTags.length; i++) {
+    let newInput = createInput(
+      inputTags[i][0],
+      inputTags[i][1],
+      inputTags[i][2]
+    );
+    inputs.push(newInput);
+  }
 
-let labelTags = [
-  ["name", "label-name", "Name"],
-  ["phone", "label-name", "Phone"],
-  ["email", "label-name", "Email"],
-  ["", "", ""]
-];
+  inputs[3].value = "Save contact";
+  inputs[3].id = "add-contact";
 
-let labels = [];
-for (let i = 0; i < labelTags.length; i++) {
-  let newLabel = createLabels(labelTags[i][0]);
-  console.log(labelTags[i][i]);
-  newLabel.className += labelTags[i][1];
-  newLabel.innerHTML = labelTags[i][2];
-  labels.push(newLabel);
-}
+  let labelTags = [
+    ["name", "label-name", "Name"],
+    ["phone", "label-name", "Phone"],
+    ["email", "label-name", "Email"],
+    ["", "", ""]
+  ];
 
-//Craeting divs for input fields
-let divsInForm = 4;
-let divs = [];
-for (let i = 0; i < divsInForm; i++) {
-  let div = createNewElement("div", "form-group");
-  div.appendChild(labels[i]);
-  div.appendChild(inputs[i]);
-  myForm.appendChild(div);
-  divs.push(div);
-}
+  let labels = [];
+  for (let i = 0; i < labelTags.length; i++) {
+    let newLabel = createLabels(labelTags[i][0]);
+    console.log(labelTags[i][i]);
+    newLabel.className += labelTags[i][1];
+    newLabel.innerHTML = labelTags[i][2];
+    labels.push(newLabel);
+  }
+
+  //Craeting divs for input fields
+  let divsInForm = 4;
+  let divs = [];
+  for (let i = 0; i < divsInForm; i++) {
+    let div = createNewElement("div", "form-group");
+    div.appendChild(labels[i]);
+    div.appendChild(inputs[i]);
+    myForm.appendChild(div);
+    divs.push(div);
+  }
+};
+createForm();
 
 let neededDiv = main.querySelectorAll(".form-group");
 // console.log(neededDiv[0], "div");
@@ -270,7 +282,10 @@ neededDiv[2].appendChild(addEmailButton);
 const addMorePhones = listen("click", ".add-phone", e => {
   console.log(e.target.parentElement);
   let elem = e.target.parentElement;
+  //   let elem = document.querySelector(".parent-add-phone");
   let inputField = createInput("text", "number", "phone number");
+  inputField.className += " inputphone-modal modal-input";
+
   let removePhoneButton = createNewElement("span", "remove-phone");
   removePhoneButton.innerHTML = "X";
 
@@ -281,7 +296,10 @@ const addMorePhones = listen("click", ".add-phone", e => {
 const addMoreEmails = listen("click", ".add-email", e => {
   console.log(e.target.parentElement);
   let elem = e.target.parentElement;
+  //   let elem = document.querySelector(".parent-add-email");
+
   let inputField = createInput("text", "email", "email");
+  inputField.className += " inputemail-modal modal-input";
   let removeEmailButton = createNewElement("span", "remove-email");
   removeEmailButton.innerHTML = "X";
 
@@ -293,15 +311,20 @@ const addMoreEmails = listen("click", ".add-email", e => {
 const deleteAddPhone = listen("click", ".remove-phone", e => {
   let elem = e.target.previousSibling;
   let elem2 = e.target;
+  //   let elem3 = e.target.nextSibling;
+  //   console.log(e.target.nextSibling);
   elem.remove();
   elem2.remove();
+  //   elem3.remove();
 });
 
 const deleteAddEmail = listen("click", ".remove-email", e => {
   let elem = e.target.previousSibling;
   let elem2 = e.target;
+  //   let elem3 = e.target.nextSibling;
   elem.remove();
   elem2.remove();
+  //   elem3.remove();
 });
 
 let myTable, tblHead, tblRow, tblBody;
@@ -498,9 +521,17 @@ const displayContacts = () => {
  */
 
 const clearFields = () => {
-  document.querySelector("#name").value = "";
-  document.querySelector("#number").value = "";
-  document.querySelector("#email").value = "";
+  let input = [];
+  input = document.querySelectorAll(".form-input");
+
+  let inputs = Array.from(input);
+
+  for (let item of inputs) {
+    item.value = "";
+  }
+  console.log(inputs.length);
+  let lastIndex = inputs.length - 1;
+  inputs[lastIndex].value = "Save contact";
 };
 
 /**
@@ -586,12 +617,12 @@ let listener = listen("click", ".add-contact", e => {
   let contact = new Contact(id, date, name, phoneNumber, emailAdress);
   //   myContacts.list = [{ ...contact }];
   store.push(contact);
-  contact.history = [...contact.history, { ...contact }];
+  //   contact.history = [...contact.history, { ...contact }];
 
   store.save();
   addContact(contact);
   console.log(contact, "contact");
-  //   clearFields();
+  clearFields();
 });
 
 const findID = id => {
@@ -646,41 +677,233 @@ const editContact = listen("click", ".edit", e => {
   toggleModal(id);
   let contactToEdit = findID(id);
   //   console.log(contactToEdit);
-  inputsModal[0].value = contactToEdit.name;
-  inputsModal[1].value = contactToEdit.number;
-  inputsModal[2].value = contactToEdit.email;
+  //   inputsModal[0].value = contactToEdit.name;
+  //   inputsModal[1].value = contactToEdit.number;
+  //   inputsModal[2].value = contactToEdit.email;
+  createModalInputs(contactToEdit);
 
   //   console.log(inputsModal[0].value, "value1");
   //   console.log(inputsModal[1].value, "value2");
   //   console.log(inputsModal[2].value, "value3");
 });
 
+const createModalInputs = contact => {
+  console.log(contact, "contact");
+  let inputName = createInput("text", "name-modal modal-input", "name");
+
+  let divs = [];
+  divs = document.querySelectorAll(".form-group-modal");
+
+  inputName.value = contact.name;
+
+  if (Array.isArray(contact.number) && contact.number.length > 1) {
+    for (let i = 0; i < contact.number.length; i++) {
+      let inputPhone = createInput(
+        "text",
+        "phone-modal modal-input",
+        "phone number"
+      );
+      let removePhoneButton = createNewElement("span", "remove-phone");
+      removePhoneButton.innerHTML = "X";
+      let addPhoneButton = createNewElement("span", "add-phone");
+      addPhoneButton.innerHTML = "+";
+      inputPhone.value = contact.number[i];
+
+      divs[1].appendChild(inputPhone);
+
+      divs[1].appendChild(removePhoneButton);
+      divs[1].appendChild(addPhoneButton);
+    }
+  } else {
+    let inputPhone1 = createInput(
+      "text",
+      "phone-modal modal-input",
+      "phone number"
+    );
+    let removePhoneButton = createNewElement("span", "remove-phone");
+    removePhoneButton.innerHTML = "X";
+    let addPhoneButton = createNewElement("span", "add-phone");
+    addPhoneButton.innerHTML = "+";
+    inputPhone1.value = contact.number;
+    divs[1].appendChild(inputPhone1);
+    divs[1].appendChild(removePhoneButton);
+    divs[1].appendChild(addPhoneButton);
+
+    console.log(divs[1], "div");
+  }
+
+  //email
+
+  if (Array.isArray(contact.email) && contact.email.length > 1) {
+    for (let i = 0; i < contact.email.length; i++) {
+      let inputEmail = createInput("text", "email-modal modal-input", "email");
+      inputEmail.value = contact.email[i];
+      let removeEmailButton = createNewElement("span", "remove-email");
+      removeEmailButton.innerHTML = "X";
+      let addEmailButton = createNewElement("span", "add-email");
+      addEmailButton.innerHTML = "+";
+      divs[2].appendChild(inputEmail);
+      divs[2].appendChild(removeEmailButton);
+      divs[2].appendChild(addEmailButton);
+    }
+  } else {
+    let inputEmail1 = createInput("text", "email-modal modal-input", "email");
+    let removeEmailButton = createNewElement("span", "remove-email");
+    removeEmailButton.innerHTML = "X";
+    let addEmailButton = createNewElement("span", "add-email");
+    addEmailButton.innerHTML = "+";
+    inputEmail1.value = contact.email;
+    divs[2].appendChild(inputEmail1);
+    divs[2].appendChild(removeEmailButton);
+    divs[2].appendChild(addEmailButton);
+  }
+
+  divs[0].appendChild(inputName);
+
+  // console.log(neededDiv[0], "div");
+};
+
+refreshModal = () => {
+  let inputsToDelete = [];
+  inputsToDelete = document
+    .querySelectorAll(".modal-input")
+    .forEach(e => e.parentNode.removeChild(e));
+  let modal = document.querySelector(".modal");
+
+  let buttonToDelete = modal
+    .querySelectorAll(".add-phone")
+    .forEach(e => e.parentNode.removeChild(e));
+
+  let buttonToDelete2 = modal
+    .querySelectorAll(".add-email")
+    .forEach(e => e.parentNode.removeChild(e));
+  let buttonToDelete3 = modal
+    .querySelectorAll(".remove-email")
+    .forEach(e => e.parentNode.removeChild(e));
+  let buttonToDelete4 = modal
+    .querySelectorAll(".remove-phone")
+    .forEach(e => e.parentNode.removeChild(e));
+  //   buttonToDelete.parentNode.removeChild(buttonToDelete);
+
+  //   buttonToDelete.remove();
+  //   buttonToDelete2.remove();
+  //   console.log(inputsToDelete, "inputs");
+  //   inputsToDelete.remove();
+
+  //   elem.parentNode.removeChild(elem);
+};
+
+////
+
+// let numbers = [];
+// numbers = main.querySelectorAll(".inputnumber");
+
+// let phoneNumber = [];
+
+// let stable = Array.from(numbers);
+
+// for (let item of stable) {
+//   phoneNumber = [...phoneNumber, ...[item.value]];
+// }
+
 const saveEdit = listen("submit", ".form-modal", e => {
   e.preventDefault();
+  //   //   refreshModal();
 
   let id = e.target.parentElement.parentElement.id;
-  //   console.log(e.target, "target");
+
   let contactToEdit = findID(id);
-  //   console.log(contactToEdit, " already existing contact");
-  if (
-    inputsModal[0].value === contactToEdit.name &&
-    inputsModal[1].value === contactToEdit.number &&
-    inputsModal[2].value === contactToEdit.email
-  ) {
-    return;
+  let inputsPhone = [];
+  let inputsEmail = [];
+
+  let inputName = document.querySelector(".inputname-modal");
+  inputsEmail = document.querySelectorAll(".inputemail-modal");
+  inputsPhone = document.querySelectorAll(".inputphone-modal");
+  let stable = Array.from(inputsPhone);
+  let stableEmail = Array.from(inputsEmail);
+
+  //   console.log(stable, "phones");
+  //   let phoneNumbers = [];
+  let phoneNumbers = [];
+  for (let item of stable) {
+    // console.log(item.value, "phone");
+    phoneNumbers.push(item.value);
+    console.log(item.value, "item");
+  }
+  console.log(stable, "after loop");
+
+  let emails = [];
+  for (let item of stableEmail) {
+    emails.push(item.value);
+  }
+
+  //   console.log(phoneNumbers.length, "nums lengt");
+  //   console.log(contactToEdit.number.length, "numsedit lengt");
+
+  let comparedPhone;
+  //   let comparedEmail = false;
+  if (phoneNumbers.length === contactToEdit.number.length) {
+    console.log(phoneNumbers, "numbers");
+    for (let i = 0; i < phoneNumbers.length; i++) {
+      if (phoneNumbers[i] === contactToEdit.number[i]) {
+        //   if (phoneNumbers === contactToEdit.number) {
+        comparedPhone = "same";
+      } else {
+        comparedPhone = "different";
+        break;
+      }
+    }
   } else {
+    console.log("went to else");
+
+    comparedPhone = "different";
+  }
+
+  let comparedEmail;
+
+  if (emails.length === contactToEdit.email.length) {
+    console.log("if sats");
+    for (let i = 0; i < emails.length; i++) {
+      console.log("loop");
+      if (emails[i] === contactToEdit.email[i]) {
+        comparedEmail = "same";
+      } else {
+        comparedEmail = "different";
+        break;
+      }
+    }
+  } else {
+    console.log("went to else");
+
+    comparedPhone = "different";
+  }
+
+  if (
+    inputName.value === contactToEdit.name &&
+    comparedPhone === "same" &&
+    comparedEmail === "same"
+  ) {
+    console.log("SAMEEEEEEEEEE");
+  } else {
+    console.log("diffffffffffffffff");
+
     // historyList = [{ ...contactToEdit }];
+    console.log(phoneNumbers, "nums");
     let editedContact = {
       id: contactToEdit.id,
       date: new Date().toLocaleString(),
-      name: inputsModal[0].value,
-      number: inputsModal[1].value,
-      email: inputsModal[2].value
+      name: inputName.value,
+      number: [...phoneNumbers],
+      email: [...emails]
     };
+    console.log(editedContact);
 
-    console.log(contactToEdit, "contacttttttttttt");
+    // console.log(contactToEdit, "contacttttttttttt");
 
     contactToEdit.history = [...contactToEdit.history, { ...editedContact }];
+
+    console.log(contactToEdit, "the contact");
+
     // contactToEdit.history = [
     //   ...contactToEdit.history,
     //   { ...contactToEdit },
@@ -692,6 +915,7 @@ const saveEdit = listen("submit", ".form-modal", e => {
 
     //MAKE THIS BETTER
     let newVersion = Object.assign(contactToEdit, editedContact);
+    console.log(newVersion, "new ");
     // contactToEdit.history = [{ ...contactToEdit }]; funkar
     // console.log(contactToEdit, "to edtis");
     // console.log(contactToEdit.history, "history");
@@ -702,9 +926,14 @@ const saveEdit = listen("submit", ".form-modal", e => {
     changeValue.children[2].innerHTML = newVersion.email;
     store.splice(index, 1, newVersion);
     store.save();
+    refreshModal();
   }
+
   toggleModal("");
 });
+
+//trying to get values from inputs
+// loop for numbers and asve as array
 
 //history
 const showInfo = listen("click", ".info", e => {
@@ -747,7 +976,16 @@ const resetContact = listen("click", ".reset", e => {
   //   let currentContact = history[currentContactIndex];
 
   //update histort with resetted contact
-  contactToShow.history = [...contactToShow.history, { ...found }];
+  let copy = { ...found };
+  copy.date = new Date().toLocaleString();
+  //   console.log(copy, "copy");
+  //   found.date = new Date().toLocaleString();
+  contactToShow.history = [...contactToShow.history, { ...copy }];
+  //   contactToShow = { ...found };
+  let newVersion = Object.assign(contactToShow, copy);
+  let index = store.indexOf(contactToShow);
+
+  store.splice(index, 1, newVersion);
   store.save();
   refreshContactInfo();
   refreshTable(".contact-history");
@@ -760,7 +998,7 @@ const resetContact = listen("click", ".reset", e => {
     alertInfo.style.display = "none";
   }, 3000);
 
-  contactToShow.history.map(item => {
+  newVersion.history.map(item => {
     addTableRowInHistory(item, ".contact-history");
   });
 });

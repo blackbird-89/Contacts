@@ -38,10 +38,16 @@ label {
     color: $text-primary;
 }
 
-input {
+.form-input {
     display: inline-block;
     padding: 5px;
     width: 90%;
+    height: calc(1.5em + 0.75rem + 2px);
+}
+.modal input {
+    display: inline-block;
+    padding: 5px;
+    width: 72%;
     height: calc(1.5em + 0.75rem + 2px);
 }
 input#number2,
@@ -76,13 +82,17 @@ input#email2 {
     font-size: 1.4rem;
     color: $text-primary;
     margin-left: 4rem;
+    border-collapse: collapse;
 }
-
+.contacts-table tr,
+.contact-history tr {
+    border-bottom: 1px solid #ddd;
+    padding: 1rem;
+}
 .contacts-table th,
 .contacts-table td,
 .contact-history th,
 .contact-history td {
-    border-bottom: 1px solid #ddd;
     font-family: "Lato", sans-serif;
     padding: 5px;
 }
@@ -189,7 +199,7 @@ input#email2 {
     transform: translate(-50%, -50%);
     background-color: white;
     padding: 1rem 1.5rem;
-    width: 40%;
+    width: 50%;
     border-radius: 0.5rem;
 }
 
@@ -216,4 +226,8 @@ input#email2 {
 .form-group-modal {
     width: 100%;
     padding: 1rem;
+}
+
+.alertInfo {
+    color: red;
 }
