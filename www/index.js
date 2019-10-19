@@ -35,10 +35,7 @@ const [listen, unlisten] = (() => {
   return [listen, unlisten];
 })();
 
-// We can unlisten - try commenting in these lines:
-// unlisten(listener1);
-
-/***********
+/***
  * Setting up local storage
  */
 
@@ -124,14 +121,12 @@ mainHeading.innerHTML = `<i class="fas fa-book-open text-primary"></i
 `;
 
 container.append(mainHeading);
-
 containerRouter.append(container);
 main.append(containerRouter);
-// main.append(container);
 
-//creating Contact view**************************************'
-/////
-///////
+/***
+ * Contact view
+ */
 
 let view = createNewElement("div", "route2");
 let containerContact = createNewElement("div", "container-contact");
@@ -141,7 +136,6 @@ let headingView = createNewElement("h1", "");
 headingView.innerHTML = `<i class="fas fa-book-open text-primary"></i
 > Contact</span>
 `;
-// view.appendChild(headingView);
 containerContact.appendChild(headingView);
 let introduction = createNewElement("div", "intro-contact");
 containerContact.appendChild(introduction);
@@ -167,7 +161,6 @@ tableItems[3].innerHTML = "Email";
 
 containerContact.append(contactTable);
 view.append(containerContact);
-
 main.append(view);
 
 window.onload = function() {
@@ -175,7 +168,9 @@ window.onload = function() {
   displayContacts();
 };
 
-//buttons to navigate***************************************************************buttons
+/**
+ * buttons for navigation
+ */
 header = createNewElement("header", "");
 let buttonHome = createNewElement("button", "button-home");
 buttonHome.innerHTML = "Home";
@@ -204,12 +199,12 @@ const createLabels = id => {
   return label;
 };
 
+//creating inputs
 const createInput = (type, name, placeholder) => {
   let input = document.createElement("input");
   input.type = type;
   input.name = name;
   input.className += "form-input" + " input" + name;
-  //   input.id = name;
   input.placeholder = "Add " + placeholder;
   return input;
 };
@@ -226,7 +221,6 @@ const createForm = () => {
   ];
 
   let inputs = [];
-
   for (let i = 0; i < inputTags.length; i++) {
     let newInput = createInput(
       inputTags[i][0],
@@ -255,7 +249,6 @@ const createForm = () => {
     labels.push(newLabel);
   }
 
-  //Craeting divs for input fields
   let divsInForm = 4;
   let divs = [];
   for (let i = 0; i < divsInForm; i++) {
@@ -268,45 +261,46 @@ const createForm = () => {
 };
 createForm();
 
+/***
+ * add and remove button
+ */
 let neededDiv = main.querySelectorAll(".form-group");
-// console.log(neededDiv[0], "div");
 let addPhoneButton = createNewElement("span", "add-phone");
 addPhoneButton.innerHTML = "+";
 let addEmailButton = createNewElement("span", "add-email");
-
 addEmailButton.innerHTML = "+";
-
 neededDiv[1].appendChild(addPhoneButton);
 neededDiv[2].appendChild(addEmailButton);
 
+/**
+ * adding phone input fields
+ */
+
 const addMorePhones = listen("click", ".add-phone", e => {
-  console.log(e.target.parentElement);
   let elem = e.target.parentElement;
-  //   let elem = document.querySelector(".parent-add-phone");
   let inputField = createInput("text", "number", "phone number");
   inputField.className += " inputphone-modal modal-input";
-
   let removePhoneButton = createNewElement("span", "remove-phone");
   removePhoneButton.innerHTML = "X";
-
   elem.appendChild(inputField);
   elem.appendChild(removePhoneButton);
 });
 
-const addMoreEmails = listen("click", ".add-email", e => {
-  console.log(e.target.parentElement);
-  let elem = e.target.parentElement;
-  //   let elem = document.querySelector(".parent-add-email");
+/**
+ * adding email input fields
+ */
 
+const addMoreEmails = listen("click", ".add-email", e => {
+  let elem = e.target.parentElement;
   let inputField = createInput("text", "email", "email");
   inputField.className += " inputemail-modal modal-input";
   let removeEmailButton = createNewElement("span", "remove-email");
   removeEmailButton.innerHTML = "X";
-
   elem.appendChild(inputField);
   elem.appendChild(removeEmailButton);
 });
-//Creating table for contacts
+
+//removing
 
 const deleteAddPhone = listen("click", ".remove-phone", e => {
   let elem = e.target.previousSibling;
@@ -318,6 +312,8 @@ const deleteAddPhone = listen("click", ".remove-phone", e => {
   //   elem3.remove();
 });
 
+//removing
+
 const deleteAddEmail = listen("click", ".remove-email", e => {
   let elem = e.target.previousSibling;
   let elem2 = e.target;
@@ -327,6 +323,9 @@ const deleteAddEmail = listen("click", ".remove-email", e => {
   //   elem3.remove();
 });
 
+/**
+ * creating table
+ */
 let myTable, tblHead, tblRow, tblBody;
 myTable = createNewElement("table", "contacts-table");
 tblHead = document.createElement("thead");
@@ -348,9 +347,7 @@ categories[2].innerHTML = "Email";
 container.append(myTable);
 
 /**
- * Adding a table row
- *
- *
+ * refreshing contact view info
  */
 
 const refreshContactInfo = () => {
@@ -358,20 +355,19 @@ const refreshContactInfo = () => {
   let heading = document.querySelector(".intro-contact-heading");
   let phoneNumber = document.querySelector(".intro-contact-phone");
   let email = document.querySelector(".intro-contact-email");
-
   elem.removeChild(heading);
   elem.removeChild(phoneNumber);
   elem.removeChild(email);
 };
 
 const refreshTable = id => {
-  //   let row = document.querySelector(".row-contact");
   let list = document.querySelector(id);
   list.innerHTML = "";
-  //   for (let i = num; i < num.length; i++) {
-  //     list.removeChild(row);
-  //   }
 };
+
+/**
+ * refreshing introduction contact view
+ */
 const introContact = contact => {
   let elem = document.querySelector(".intro-contact");
   let heading = createNewElement("h2", "intro-contact-heading");
@@ -392,12 +388,9 @@ const addTableRowInHistory = (item, id) => {
   let tablePhone = document.createElement("td");
   let tableEmail = document.createElement("td");
   let tableButton3 = document.createElement("td");
-
   let buttonReset = document.createElement("button");
   buttonReset.className += "reset";
-
   tableButton3.appendChild(buttonReset);
-
   buttonReset.innerHTML = "Återställ";
   tableDate.innerHTML = item.date;
   tableName.innerHTML = item.name;
@@ -405,13 +398,11 @@ const addTableRowInHistory = (item, id) => {
   tableEmail.innerHTML = item.email;
   let row = document.createElement("tr", "row-contact");
   row.setAttribute("id", item.id);
-
   row.appendChild(tableDate);
   row.appendChild(tableName);
   row.appendChild(tablePhone);
   row.appendChild(tableEmail);
   row.appendChild(tableButton3);
-
   list.appendChild(row);
 };
 
@@ -419,30 +410,23 @@ const addTableRow = (item, id) => {
   let list = document.querySelector(id);
   let row = document.createElement("tr");
   let tablePhone = document.createElement("td");
-
   let tableName = document.createElement("td");
   let tableEmail = document.createElement("td");
   let tableButton1 = document.createElement("td");
   let tableButton2 = document.createElement("td");
   let tableButton3 = document.createElement("td");
-
   let buttonEdit = document.createElement("button");
   buttonEdit.className += "edit";
-
   let buttonInfo = document.createElement("button");
   buttonInfo.className += "info";
-
   let buttonDelete = document.createElement("button");
   buttonDelete.className += "delete";
   tableButton1.appendChild(buttonEdit);
   tableButton2.appendChild(buttonDelete);
   tableButton3.appendChild(buttonInfo);
-
   buttonDelete.innerHTML = "X";
   buttonEdit.innerHTML = "edit";
-
   buttonInfo.innerHTML = "Info";
-
   tableName.innerHTML = item.name;
   for (let i = 0; i < item.number.length; i++) {
     if (Array.isArray(item.number)) {
@@ -454,52 +438,30 @@ const addTableRow = (item, id) => {
     } else {
       tablePhone.innerHTML = item.number;
     }
-
-    // let breakEl = document.createElement("BR");
-    // tablePhone.innerHTML.append(breakEl);
   }
 
   tableEmail.innerHTML = item.email;
   row.setAttribute("id", item.id);
-
   row.appendChild(tableName);
   row.appendChild(tablePhone);
-
   row.appendChild(tableEmail);
   row.appendChild(tableButton1);
   row.appendChild(tableButton2);
   row.appendChild(tableButton3);
-
   list.appendChild(row);
 };
 
-document.body.append(header);
-
-document.body.append(main);
 let submitButton = main.querySelector("#add-contact");
 submitButton.className += " add-contact";
-console.log(submitButton, "submitbutton");
+document.body.append(header);
+document.body.append(main);
+
 /**
  * Adding contacts to the DOM
  */
 
 const addContact = contact => {
   addTableRow(contact, "#contact-list");
-  //   let list = document.querySelector("#contact-list");
-  //   let row = document.createElement("tr");
-  //   row.setAttribute("id", contact.id);
-  //   row.innerHTML = `
-  //   <td>${contact.name}</td>
-  //     <td>${contact.number}</td>
-  //     <td>${contact.email}</td>
-  //     <td>
-  //     <button class="edit">Edit</button>
-  //   </td>
-  //   <td><button class="delete">X</button></td>
-  //   <td><button class="info">Info</button></td>
-  //   `;
-
-  //   list.appendChild(row);
 };
 
 {
@@ -523,13 +485,10 @@ const displayContacts = () => {
 const clearFields = () => {
   let input = [];
   input = document.querySelectorAll(".form-input");
-
   let inputs = Array.from(input);
-
   for (let item of inputs) {
     item.value = "";
   }
-  console.log(inputs.length);
   let lastIndex = inputs.length - 1;
   inputs[lastIndex].value = "Save contact";
 };
@@ -544,30 +503,6 @@ const deleteContact = elem => {
   }
 };
 
-//submitting
-
-// function toSubmit(name, phone, email) {
-//   let newContact = new Contact(name, phone, email);
-//   console.log(newContact);
-//   return newContact;
-// }
-
-// // form.onsubmit =
-// // button.onclick(form.submit());
-// // console.log(form.submit());
-
-// myForm.addEventListener("submit", e => {
-//   e.preventDefault();
-
-//   toSubmit(inputs[0].value, inputs[1].value, inputs[2].value);
-//   myForm.reset();
-// });
-
-/**
- * Adding event listeners
- * and creating new contact
- */
-
 const ID = () => {
   return (
     "_" +
@@ -577,16 +512,9 @@ const ID = () => {
   );
 };
 
-// getDate = () => {
-//   let dateObj = new Date();
-//   let month = ("0" + (dateObj.getMonth() + 1)).slice(-2);
-//   let dateNum = ("0" + dateObj.getDate()).slice(-2);
-//   let year = dateObj.getFullYear();
-//   let date = year + "/" + month + "/" + dateNum;
-//   return date;
-// };
 /**
- * Adding new contact to local storage, on submit
+ * Adding event listeners
+ * and creating new contact
  */
 
 let listener = listen("click", ".add-contact", e => {
@@ -594,11 +522,8 @@ let listener = listen("click", ".add-contact", e => {
   let name = document.querySelector(".inputname").value;
   let numbers = [];
   numbers = main.querySelectorAll(".inputnumber");
-
   let phoneNumber = [];
-
   let stable = Array.from(numbers);
-
   for (let item of stable) {
     phoneNumber = [...phoneNumber, ...[item.value]];
   }
@@ -606,22 +531,15 @@ let listener = listen("click", ".add-contact", e => {
   let emailAdress = [];
   let stableEmail = Array.from(emails);
   for (let item of stableEmail) {
-    console.log(item.value, "item");
     emailAdress = [...emailAdress, ...[item.value]];
   }
-  console.log(emailAdress);
-  //   let email = document.querySelector(".inputemail").value;
   let id = ID();
   let date = new Date().toLocaleString();
-  console.log(date, "date");
   let contact = new Contact(id, date, name, phoneNumber, emailAdress);
-  //   myContacts.list = [{ ...contact }];
   store.push(contact);
   //   contact.history = [...contact.history, { ...contact }];
-
   store.save();
   addContact(contact);
-  console.log(contact, "contact");
   clearFields();
 });
 
@@ -639,63 +557,30 @@ const findID = id => {
 
 let listener2 = listen("click", ".delete", e => {
   deleteContact(e.target);
-  console.log("from delete");
   let elem = e.target;
   if (elem.classList.contains("delete")) {
     let targetId = elem.parentElement.parentElement.id;
     let itemToDelete = findID(targetId);
-    // console.log(itemToDelete, "toDelete");
     let index = store.indexOf(itemToDelete);
     store.splice(index, 1);
     store.save();
   }
 });
 
-//Navigating on edit
-//on edit sent to different route
-// let onEdit = listen("click", ".edit", e => {
-//   onNavigate("/contact");
-
-//   console.log("edit");
-//   console.log(e.target, "event");
-//   console.log(e.target.parentElement.parentElement);
-//   let id = e.target.parentElement.parentElement.id;
-//   let contactToShow = findID(id);
-//   console.log(contactToShow);
-//   let heading = createNewElement("h2", "heading-contact");
-//   heading.innerHTML = contactToShow.name;
-
-//   addTableRow(contactToShow, ".contact-history");
-// });
-
 let closeButton = document.querySelector(".close-button");
 
 const editContact = listen("click", ".edit", e => {
-  //   console.log(e.target, "target");
-  console.log(e.target.parentElement.parentElement.id);
   let id = e.target.parentElement.parentElement.id;
   toggleModal(id);
   let contactToEdit = findID(id);
-  //   console.log(contactToEdit);
-  //   inputsModal[0].value = contactToEdit.name;
-  //   inputsModal[1].value = contactToEdit.number;
-  //   inputsModal[2].value = contactToEdit.email;
   createModalInputs(contactToEdit);
-
-  //   console.log(inputsModal[0].value, "value1");
-  //   console.log(inputsModal[1].value, "value2");
-  //   console.log(inputsModal[2].value, "value3");
 });
 
 const createModalInputs = contact => {
-  console.log(contact, "contact");
   let inputName = createInput("text", "name-modal modal-input", "name");
-
   let divs = [];
   divs = document.querySelectorAll(".form-group-modal");
-
   inputName.value = contact.name;
-
   if (Array.isArray(contact.number) && contact.number.length > 1) {
     for (let i = 0; i < contact.number.length; i++) {
       let inputPhone = createInput(
@@ -708,9 +593,7 @@ const createModalInputs = contact => {
       let addPhoneButton = createNewElement("span", "add-phone");
       addPhoneButton.innerHTML = "+";
       inputPhone.value = contact.number[i];
-
       divs[1].appendChild(inputPhone);
-
       divs[1].appendChild(removePhoneButton);
       divs[1].appendChild(addPhoneButton);
     }
@@ -728,8 +611,6 @@ const createModalInputs = contact => {
     divs[1].appendChild(inputPhone1);
     divs[1].appendChild(removePhoneButton);
     divs[1].appendChild(addPhoneButton);
-
-    console.log(divs[1], "div");
   }
 
   //email
@@ -783,70 +664,34 @@ refreshModal = () => {
   let buttonToDelete4 = modal
     .querySelectorAll(".remove-phone")
     .forEach(e => e.parentNode.removeChild(e));
-  //   buttonToDelete.parentNode.removeChild(buttonToDelete);
-
-  //   buttonToDelete.remove();
-  //   buttonToDelete2.remove();
-  //   console.log(inputsToDelete, "inputs");
-  //   inputsToDelete.remove();
-
-  //   elem.parentNode.removeChild(elem);
 };
-
-////
-
-// let numbers = [];
-// numbers = main.querySelectorAll(".inputnumber");
-
-// let phoneNumber = [];
-
-// let stable = Array.from(numbers);
-
-// for (let item of stable) {
-//   phoneNumber = [...phoneNumber, ...[item.value]];
-// }
 
 const saveEdit = listen("submit", ".form-modal", e => {
   e.preventDefault();
-  //   //   refreshModal();
-
   let id = e.target.parentElement.parentElement.id;
-
   let contactToEdit = findID(id);
   let inputsPhone = [];
   let inputsEmail = [];
-
   let inputName = document.querySelector(".inputname-modal");
   inputsEmail = document.querySelectorAll(".inputemail-modal");
   inputsPhone = document.querySelectorAll(".inputphone-modal");
   let stable = Array.from(inputsPhone);
   let stableEmail = Array.from(inputsEmail);
 
-  //   console.log(stable, "phones");
-  //   let phoneNumbers = [];
   let phoneNumbers = [];
   for (let item of stable) {
-    // console.log(item.value, "phone");
     phoneNumbers.push(item.value);
-    console.log(item.value, "item");
   }
-  console.log(stable, "after loop");
 
   let emails = [];
   for (let item of stableEmail) {
     emails.push(item.value);
   }
 
-  //   console.log(phoneNumbers.length, "nums lengt");
-  //   console.log(contactToEdit.number.length, "numsedit lengt");
-
   let comparedPhone;
-  //   let comparedEmail = false;
   if (phoneNumbers.length === contactToEdit.number.length) {
-    console.log(phoneNumbers, "numbers");
     for (let i = 0; i < phoneNumbers.length; i++) {
       if (phoneNumbers[i] === contactToEdit.number[i]) {
-        //   if (phoneNumbers === contactToEdit.number) {
         comparedPhone = "same";
       } else {
         comparedPhone = "different";
@@ -854,17 +699,12 @@ const saveEdit = listen("submit", ".form-modal", e => {
       }
     }
   } else {
-    console.log("went to else");
-
     comparedPhone = "different";
   }
 
   let comparedEmail;
-
   if (emails.length === contactToEdit.email.length) {
-    console.log("if sats");
     for (let i = 0; i < emails.length; i++) {
-      console.log("loop");
       if (emails[i] === contactToEdit.email[i]) {
         comparedEmail = "same";
       } else {
@@ -873,22 +713,14 @@ const saveEdit = listen("submit", ".form-modal", e => {
       }
     }
   } else {
-    console.log("went to else");
-
     comparedPhone = "different";
   }
-
   if (
     inputName.value === contactToEdit.name &&
     comparedPhone === "same" &&
     comparedEmail === "same"
   ) {
-    console.log("SAMEEEEEEEEEE");
   } else {
-    console.log("diffffffffffffffff");
-
-    // historyList = [{ ...contactToEdit }];
-    console.log(phoneNumbers, "nums");
     let editedContact = {
       id: contactToEdit.id,
       date: new Date().toLocaleString(),
@@ -896,29 +728,9 @@ const saveEdit = listen("submit", ".form-modal", e => {
       number: [...phoneNumbers],
       email: [...emails]
     };
-    console.log(editedContact);
-
-    // console.log(contactToEdit, "contacttttttttttt");
 
     contactToEdit.history = [...contactToEdit.history, { ...editedContact }];
-
-    console.log(contactToEdit, "the contact");
-
-    // contactToEdit.history = [
-    //   ...contactToEdit.history,
-    //   { ...contactToEdit },
-    //   { ...editedContact }
-    // ];
-
-    //history functioning
-    // console.log(contactToEdit, "beneath history");
-
-    //MAKE THIS BETTER
     let newVersion = Object.assign(contactToEdit, editedContact);
-    console.log(newVersion, "new ");
-    // contactToEdit.history = [{ ...contactToEdit }]; funkar
-    // console.log(contactToEdit, "to edtis");
-    // console.log(contactToEdit.history, "history");
     let index = store.indexOf(contactToEdit);
     let changeValue = document.getElementById(id);
     changeValue.children[0].innerHTML = newVersion.name;
@@ -932,30 +744,16 @@ const saveEdit = listen("submit", ".form-modal", e => {
   toggleModal("");
 });
 
-//trying to get values from inputs
-// loop for numbers and asve as array
-
 //history
 const showInfo = listen("click", ".info", e => {
   onNavigate("/contact");
-
-  //   console.log(e.target, "event");
-  //   console.log(e.target.parentElement.parentElement);
   let id = e.target.parentElement.parentElement.id;
   let contactToShow = findID(id);
-  //   console.log(contactToShow);
-  let content = document.querySelector(".container-contact");
-  //   console.log(content);
-
   introContact(contactToShow);
-  //   console.log(contactToShow.history);
   let history = contactToShow.history;
   history.map(item => {
     addTableRowInHistory(item, ".contact-history");
   });
-  //   addTableRow(contactToShow, ".contact-history");
-
-  //add here that the last in list (history) shows
 });
 
 //reseting
@@ -973,18 +771,12 @@ const resetContact = listen("click", ".reset", e => {
   //last one -- need later for pointer
   //   let currentContactIndex = history.length - 1;
 
-  //   let currentContact = history[currentContactIndex];
-
-  //update histort with resetted contact
   let copy = { ...found };
   copy.date = new Date().toLocaleString();
-  //   console.log(copy, "copy");
-  //   found.date = new Date().toLocaleString();
   contactToShow.history = [...contactToShow.history, { ...copy }];
   //   contactToShow = { ...found };
   let newVersion = Object.assign(contactToShow, copy);
   let index = store.indexOf(contactToShow);
-
   store.splice(index, 1, newVersion);
   store.save();
   refreshContactInfo();
@@ -1002,5 +794,3 @@ const resetContact = listen("click", ".reset", e => {
     addTableRowInHistory(item, ".contact-history");
   });
 });
-
-//create render view!!!!!!!!
