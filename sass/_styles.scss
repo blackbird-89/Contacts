@@ -1,0 +1,357 @@
+h1 {
+    color: $text-secondary;
+    font-size: 4.5rem;
+    font-weight: 300;
+}
+i {
+    color: $primary;
+}
+
+span {
+    color: $primary;
+}
+
+.container,
+.container-contact {
+    max-width: 1140px;
+    margin: 5rem auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-history {
+    position: relative;
+}
+
+.button-home {
+    font-size: 4rem;
+    display: inline-block;
+    position: absolute;
+    top: 6rem;
+    left: 20%;
+    border: none;
+    background-color: #fff;
+}
+
+.backButton,
+.forwardButton,
+.saveButton {
+    display: inline-block;
+    position: absolute;
+    top: 40%;
+    border: none;
+    width: 6rem;
+    height: 3rem;
+    cursor: pointer;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+}
+
+.backButton {
+    left: 44%;
+}
+
+.forwardButton {
+    right: 44%;
+}
+
+.saveButton {
+    right: 30%;
+    background-color: $primary;
+    color: #fff;
+}
+
+.contacts-form {
+    margin-left: 5rem;
+    margin-bottom: 2rem;
+    width: 70%;
+}
+
+.form-group {
+    width: 100%;
+    margin: 2rem;
+}
+
+label {
+    display: block;
+    font-size: 1.6rem;
+    margin-bottom: 0.7rem;
+    color: $text-primary;
+}
+
+.form-input {
+    display: inline-block;
+    padding: 5px;
+    width: 90%;
+    margin-top: 0.4rem;
+    //height: calc(1.5em + 0.75rem + 2px);
+    height: 3.5rem;
+    border: 0.4px solid #999;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+}
+.modal input {
+    display: inline-block;
+    padding: 5px;
+    width: 72%;
+    height: 3.5rem;
+    border: 0.4px solid #999;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    // height: calc(1.5em + 0.75rem + 2px);
+}
+
+#add-contact {
+    border: none;
+    background-color: $primary;
+    margin-top: 1.5rem;
+    color: #fff;
+    font-family: "Lato", sans-serif;
+    font-size: 1.6rem;
+    font-weight: 300;
+    transition: all 1s;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -ms-transition: all 1s;
+    -o-transition: all 1s;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #2e7acd;
+    }
+}
+
+.contacts-table,
+.contact-history {
+    width: 65%;
+    text-align: left;
+    font-family: "Lato", sans-serif;
+    font-size: 1.4rem;
+    color: $text-primary;
+    margin-left: 4rem;
+    border-collapse: collapse;
+}
+
+.contact-history {
+    margin-top: 4rem;
+}
+.contacts-table tr,
+.contact-history tr {
+    border-bottom: 1px solid #ddd;
+    padding: 1rem;
+}
+.contacts-table th,
+.contacts-table td,
+.contact-history th,
+.contact-history td {
+    font-family: "Lato", sans-serif;
+    padding: 5px;
+}
+
+.contacts-table th {
+    font-weight: 400;
+    font-size: 1.7rem;
+    font-weight: 600;
+}
+.contacts-table td:first-child {
+    font-weight: 600;
+}
+
+.intro-contact {
+    width: 60%;
+    text-align: left;
+    margin-bottom: 3rem;
+    margin-top: 3rem;
+    font-family: "Lato", sans-serif;
+    font-size: 2rem;
+    padding: 2rem;
+}
+
+.intro-contact-heading,
+.intro-contact-phone,
+.intro-contact-email {
+    margin-bottom: 1rem;
+}
+
+.delete,
+.edit,
+.info,
+.add-phone,
+.add-email,
+.remove-phone,
+.remove-email {
+    border: none;
+    height: 3rem;
+    width: 3rem;
+    cursor: pointer;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+}
+
+.delete,
+.edit,
+.info {
+    width: 4.5rem;
+    color: #fff;
+}
+
+.delete {
+    background-color: $danger;
+}
+
+.edit {
+    background-color: $primary;
+}
+
+.info {
+    background-color: $color-grey-light-2;
+    color: #444;
+}
+.icon {
+    color: #fff;
+}
+
+.add-phone,
+.add-email,
+.remove-phone,
+.remove-email {
+    display: inline-block;
+    margin-left: 2rem;
+    vertical-align: middle;
+    padding-left: 1rem;
+    padding-top: 0.4rem;
+    margin-top: -0.3rem;
+    color: #fff;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+
+.add-phone,
+.add-email {
+    background-color: $primary;
+    font-size: 1.8rem;
+}
+
+.remove-phone,
+.remove-email {
+    background-color: $danger;
+    font-size: 1.3rem;
+    padding-top: 0.6rem;
+    padding-left: 1.1rem;
+}
+
+.icon-user,
+.icon-phone,
+.icon-email {
+    margin-right: 2rem;
+    font-size: 2rem;
+}
+
+.icon-user {
+    font-size: 2.5rem;
+}
+
+.reset {
+    border: none;
+    height: 3rem;
+    width: 6rem;
+    cursor: pointer;
+    background-color: $primary;
+    color: #fff;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+}
+
+.modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.1);
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 1rem 1.5rem;
+    width: 50%;
+    border-radius: 0.5rem;
+}
+
+.close-button {
+    float: right;
+    border: none;
+    width: 2em;
+    height: 2rem;
+    line-height: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    background-color: $danger;
+    color: #fff;
+}
+
+.close-button:hover {
+    background-color: darkgray;
+}
+
+.save-contact {
+    border: none;
+    display: inline-block;
+    width: 5rem;
+    height: 3rem;
+    background-color: $primary;
+    color: #fff;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+}
+
+.save-contact:hover {
+    background-color: #5588bd;
+}
+
+.show-modal {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+    transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+}
+
+.form-group-modal {
+    width: 100%;
+    padding: 1rem;
+}
+
+.alertInfo {
+    color: red;
+}
