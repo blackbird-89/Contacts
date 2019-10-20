@@ -64,6 +64,43 @@ class History {
       this.addTableRowInHistory(item, ".contact-history");
     });
   };
+
+  //reseting
+
+  static resetContact = e => {
+    let id = e.target.parentElement.parentElement.id;
+    let timestamp =
+      e.target.parentElement.parentElement.childNodes[0].textContent;
+    let contactToShow = Store.findID(id);
+    let history = contactToShow.history;
+    let found = history.find(contact => {
+      return contact.date === timestamp;
+    });
+    //last one -- need later for pointer
+    //   let currentContactIndex = history.length - 1;
+
+    let copy = { ...found };
+    copy.date = new Date().toLocaleString();
+    contactToShow.history = [...contactToShow.history, { ...copy }];
+    //   contactToShow = { ...found };
+    let newVersion = Object.assign(contactToShow, copy);
+    Store.resetContact(contactToShow, newVersion);
+
+    this.refreshContactInfo();
+    this.refreshTableHistory(".contact-history");
+    let elem = document.querySelector(".intro-contact");
+    let alertInfo = UI.createNewElement("p", "alertInfo");
+    alertInfo.innerHTML = "Updated";
+    elem.append(alertInfo);
+    this.introContactHistory(found);
+    setTimeout(() => {
+      alertInfo.style.display = "none";
+    }, 3000);
+
+    newVersion.history.map(item => {
+      this.addTableRowInHistory(item, ".contact-history");
+    });
+  };
 }
 
 export default History;

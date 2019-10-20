@@ -163,6 +163,60 @@ class UI {
     });
   }
 
+  /**
+   * adding phone input fields
+   */
+
+  static addMorePhones = e => {
+    let elem = e.target.parentElement;
+    let inputField = this.createInput("text", "number", "phone number");
+    inputField.className += " inputphone-modal modal-input";
+    let removePhoneButton = this.createNewElement("span", "remove-phone");
+    removePhoneButton.innerHTML = "X";
+    elem.appendChild(inputField);
+    elem.appendChild(removePhoneButton);
+  };
+
+  /**
+   * adding email input fields
+   */
+
+  static addMoreEmails = e => {
+    let elem = e.target.parentElement;
+    let inputField = this.createInput("text", "email", "email");
+    inputField.className += " inputemail-modal modal-input";
+    let removeEmailButton = this.createNewElement("span", "remove-email");
+    removeEmailButton.innerHTML = "X";
+    elem.appendChild(inputField);
+    elem.appendChild(removeEmailButton);
+  };
+
+  //removing
+
+  static deleteAddPhone = e => {
+    let elem = e.target.previousSibling;
+    let elem2 = e.target;
+    //   let elem3 = e.target.nextSibling;
+    //   console.log(e.target.nextSibling);
+    elem.remove();
+    elem2.remove();
+    //   elem3.remove();
+  };
+
+  //removing
+
+  static deleteAddEmail = e => {
+    let elem = e.target.previousSibling;
+    let elem2 = e.target;
+    //   let elem3 = e.target.nextSibling;
+    elem.remove();
+    elem2.remove();
+    //   elem3.remove();
+  };
+
+  /**
+   * Adding a row to the table
+   */
   static addTableRow = (item, id) => {
     let list = document.querySelector(id);
     let row = document.createElement("tr");

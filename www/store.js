@@ -26,6 +26,12 @@ class Store {
     store.splice(index, 1, newContact);
     store.save();
   };
+
+  static resetContact = (contact, newContact) => {
+    let index = store.indexOf(contact);
+    store.splice(index, 1, newContact);
+    store.save();
+  };
 }
 
 export default Store;
