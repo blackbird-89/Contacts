@@ -1,39 +1,39 @@
-/***
- * Event delegation
- */
+// /***
+//  * Event delegation
+//  */
 
-const [listen, unlisten] = (() => {
-  let listeningOnType = {};
-  let listeners = [];
+// const [listen, unlisten] = (() => {
+//   let listeningOnType = {};
+//   let listeners = [];
 
-  function listen(eventType, cssSelector, func) {
-    // Register a "listener"
-    let listener = { eventType, cssSelector, func };
-    listeners.push(listener);
-    // If no listener on window[eventType] register a
-    // a real/raw js-listener
-    if (!listeningOnType[eventType]) {
-      // add event listener for this type on the whole window
-      window.addEventListener(eventType, e => {
-        listeners
-          .filter(x => x.eventType === eventType)
-          .forEach(listener => {
-            if (e.target.closest(listener.cssSelector)) {
-              listener.func(e);
-            }
-          });
-      });
-      listeningOnType[eventType] = true;
-    }
-    return listener;
-  }
+//   function listen(eventType, cssSelector, func) {
+//     // Register a "listener"
+//     let listener = { eventType, cssSelector, func };
+//     listeners.push(listener);
+//     // If no listener on window[eventType] register a
+//     // a real/raw js-listener
+//     if (!listeningOnType[eventType]) {
+//       // add event listener for this type on the whole window
+//       window.addEventListener(eventType, e => {
+//         listeners
+//           .filter(x => x.eventType === eventType)
+//           .forEach(listener => {
+//             if (e.target.closest(listener.cssSelector)) {
+//               listener.func(e);
+//             }
+//           });
+//       });
+//       listeningOnType[eventType] = true;
+//     }
+//     return listener;
+//   }
 
-  function unlisten(listener) {
-    listeners.splice(listeners.indexOf(listener), 1);
-  }
+//   function unlisten(listener) {
+//     listeners.splice(listeners.indexOf(listener), 1);
+//   }
 
-  return [listen, unlisten];
-})();
+//   return [listen, unlisten];
+// })();
 
 /***
  * Setting up local storage
@@ -52,26 +52,26 @@ store.save = function() {
 
 /* PROTOTYPE*/
 
-const contactPrototype = {
-  id: "",
-  date: "",
-  name: [],
-  phone: [],
-  email: [],
-  history: []
-};
+// const contactPrototype = {
+//   id: "",
+//   date: "",
+//   name: [],
+//   phone: [],
+//   email: [],
+//   history: []
+// };
 
-function Contact(id, date, name, number, email) {
-  let newContact = Object.create(contactPrototype);
+// function Contact(id, date, name, number, email) {
+//   let newContact = Object.create(contactPrototype);
 
-  newContact.id = id;
-  newContact.date = date;
-  newContact.name = name;
-  newContact.number = number;
-  newContact.email = email;
-  newContact.history = [];
-  return newContact;
-}
+//   newContact.id = id;
+//   newContact.date = date;
+//   newContact.name = name;
+//   newContact.number = number;
+//   newContact.email = email;
+//   newContact.history = [];
+//   return newContact;
+// }
 
 /***********
  * Classes
@@ -83,85 +83,85 @@ function Contact(id, date, name, number, email) {
 // let myContacts = new ContactsBook();
 // console.log(myContacts, "contacts");
 
-// class Contact {
-//   constructor(id, date, name, number, email) {
-//     this.id = id;
-//     this.date = date;
-//     this.name = name;
-//     this.number = number;
-//     this.email = email;
-//     this.history = [];
-//   }
-// }
+class Contact {
+  constructor(id, date, name, number, email) {
+    this.id = id;
+    this.date = date;
+    this.name = name;
+    this.number = number;
+    this.email = email;
+    this.history = [];
+  }
+}
 
 /***********
  * Creating markup
  */
 
-let header, main, footer;
+// let header, main, footer;
 
-const createNewElement = (elem, className) => {
-  let newEl = document.createElement(elem);
-  newEl.className += className;
-  return newEl;
-};
+// const createNewElement = (elem, className) => {
+//   let newEl = document.createElement(elem);
+//   newEl.className += className;
+//   return newEl;
+// };
 
-main = document.createElement("main");
-main.setAttribute("id", "content");
+// main = document.createElement("main");
+// main.setAttribute("id", "content");
 
-//Create main heading and form
-let container, mainHeading, myForm;
-let containerRouter = createNewElement("div", "route1");
-container = createNewElement("div", "container");
-containerRouter.setAttribute("id", "home");
+// //Create main heading and form
+// let container, mainHeading, myForm;
+// let containerRouter = createNewElement("div", "route1");
+// container = createNewElement("div", "container");
+// containerRouter.setAttribute("id", "home");
 
-mainHeading = createNewElement("h1", "");
-mainHeading.innerHTML = `<i class="fas fa-book-open text-primary"></i
-> My<span>Contact</span>List
-`;
+// mainHeading = createNewElement("h1", "");
+// mainHeading.innerHTML = `<i class="fas fa-book-open text-primary"></i
+// > My<span>Contact</span>List
+// `;
 
-container.append(mainHeading);
-containerRouter.append(container);
-main.append(containerRouter);
+// container.append(mainHeading);
+// containerRouter.append(container);
+// main.append(containerRouter);
 
 /***
  * Contact view
  */
 
-let view = createNewElement("div", "route2");
-let containerContact = createNewElement("div", "container-contact");
+// let view = createNewElement("div", "route2");
+// let containerContact = createNewElement("div", "container-contact");
 
-view.setAttribute("id", "view");
-let headingView = createNewElement("h1", "");
-headingView.innerHTML = `<i class="fas fa-book-open text-primary"></i
-> Contact</span>
-`;
-containerContact.appendChild(headingView);
-let introduction = createNewElement("div", "intro-contact");
-containerContact.appendChild(introduction);
-let contactTable, conTblHead, conTblRow, conTblBody;
-contactTable = createNewElement("table", "contact-history");
-conTblHead = document.createElement("thead");
-conTblRow = document.createElement("tr");
-conTblBody = document.createElement("tbody");
-conTblBody.id = "contact-history";
-conTblHead.append(conTblRow);
-contactTable.append(conTblHead, conTblBody);
-let thNumer = 7;
-let tableItems = [];
-for (let i = 0; i < thNumer; i++) {
-  let tableItem = document.createElement("th");
-  conTblRow.appendChild(tableItem);
-  tableItems.push(tableItem);
-}
-tableItems[0].innerHTML = "Date";
-tableItems[1].innerHTML = "Name";
-tableItems[2].innerHTML = "Phone";
-tableItems[3].innerHTML = "Email";
+// view.setAttribute("id", "view");
+// let headingView = createNewElement("h1", "");
+// headingView.innerHTML = `<i class="fas fa-book-open text-primary"></i
+// > Contact</span>
+// `;
+// containerContact.appendChild(headingView);
+// let introduction = createNewElement("div", "intro-contact");
+// containerContact.appendChild(introduction);
+// let contactTable, conTblHead, conTblRow, conTblBody;
+// contactTable = createNewElement("table", "contact-history");
+// conTblHead = document.createElement("thead");
+// conTblRow = document.createElement("tr");
+// conTblBody = document.createElement("tbody");
+// conTblBody.id = "contact-history";
+// conTblHead.append(conTblRow);
+// contactTable.append(conTblHead, conTblBody);
+// let thNumer = 7;
+// let tableItems = [];
+// for (let i = 0; i < thNumer; i++) {
+//   let tableItem = document.createElement("th");
+//   conTblRow.appendChild(tableItem);
+//   tableItems.push(tableItem);
+// }
+// tableItems[0].innerHTML = "Date";
+// tableItems[1].innerHTML = "Name";
+// tableItems[2].innerHTML = "Phone";
+// tableItems[3].innerHTML = "Email";
 
-containerContact.append(contactTable);
-view.append(containerContact);
-main.append(view);
+// containerContact.append(contactTable);
+// view.append(containerContact);
+// main.append(view);
 
 window.onload = function() {
   onNavigate("/");
@@ -171,106 +171,106 @@ window.onload = function() {
 /**
  * buttons for navigation
  */
-header = createNewElement("header", "");
-let buttonHome = createNewElement("button", "button-home");
-buttonHome.innerHTML = "Home";
-let buttonView = createNewElement("button", "button-view");
-buttonView.innerHTML = "View";
-let divHeader = createNewElement("div", "header-container");
-divHeader.appendChild(buttonHome);
-divHeader.appendChild(buttonView);
-header.appendChild(divHeader);
+// header = createNewElement("header", "");
+// let buttonHome = createNewElement("button", "button-home");
+// buttonHome.innerHTML = "Home";
+// let buttonView = createNewElement("button", "button-view");
+// buttonView.innerHTML = "View";
+// let divHeader = createNewElement("div", "header-container");
+// divHeader.appendChild(buttonHome);
+// divHeader.appendChild(buttonView);
+// header.appendChild(divHeader);
 
-//navigating
-buttonHome.addEventListener("click", () => {
-  onNavigate("/");
-  displayContacts();
-});
+// //navigating
+// buttonHome.addEventListener("click", () => {
+//   onNavigate("/");
+//   displayContacts();
+// });
 
-buttonView.addEventListener("click", () => {
-  onNavigate("/contact");
-});
+// buttonView.addEventListener("click", () => {
+//   onNavigate("/contact");
+// });
 
-//Creating labels
-const createLabels = id => {
-  let label = document.createElement("label");
-  label.htmlFor = id;
-  label.innerHTML = id;
-  return label;
-};
+// //Creating labels
+// const createLabels = id => {
+//   let label = document.createElement("label");
+//   label.htmlFor = id;
+//   label.innerHTML = id;
+//   return label;
+// };
 
-//creating inputs
-const createInput = (type, name, placeholder) => {
-  let input = document.createElement("input");
-  input.type = type;
-  input.name = name;
-  input.className += "form-input" + " input" + name;
-  input.placeholder = "Add " + placeholder;
-  return input;
-};
+// //creating inputs
+// const createInput = (type, name, placeholder) => {
+//   let input = document.createElement("input");
+//   input.type = type;
+//   input.name = name;
+//   input.className += "form-input" + " input" + name;
+//   input.placeholder = "Add " + placeholder;
+//   return input;
+// };
 
-const createForm = () => {
-  myForm = createNewElement("form", "contacts-form");
-  container.append(mainHeading, myForm);
-  //Creating inputs
-  let inputTags = [
-    ["text", "name", "name"],
-    ["text", "number", "phone number"],
-    ["text", "email", "email"],
-    ["submit", "add-contact", ""]
-  ];
+// const createForm = () => {
+//   myForm = createNewElement("form", "contacts-form");
+//   container.append(mainHeading, myForm);
+//   //Creating inputs
+//   let inputTags = [
+//     ["text", "name", "name"],
+//     ["text", "number", "phone number"],
+//     ["text", "email", "email"],
+//     ["submit", "add-contact", ""]
+//   ];
 
-  let inputs = [];
-  for (let i = 0; i < inputTags.length; i++) {
-    let newInput = createInput(
-      inputTags[i][0],
-      inputTags[i][1],
-      inputTags[i][2]
-    );
-    inputs.push(newInput);
-  }
+//   let inputs = [];
+//   for (let i = 0; i < inputTags.length; i++) {
+//     let newInput = createInput(
+//       inputTags[i][0],
+//       inputTags[i][1],
+//       inputTags[i][2]
+//     );
+//     inputs.push(newInput);
+//   }
 
-  inputs[3].value = "Save contact";
-  inputs[3].id = "add-contact";
+//   inputs[3].value = "Save contact";
+//   inputs[3].id = "add-contact";
 
-  let labelTags = [
-    ["name", "label-name", "Name"],
-    ["phone", "label-name", "Phone"],
-    ["email", "label-name", "Email"],
-    ["", "", ""]
-  ];
+//   let labelTags = [
+//     ["name", "label-name", "Name"],
+//     ["phone", "label-name", "Phone"],
+//     ["email", "label-name", "Email"],
+//     ["", "", ""]
+//   ];
 
-  let labels = [];
-  for (let i = 0; i < labelTags.length; i++) {
-    let newLabel = createLabels(labelTags[i][0]);
-    console.log(labelTags[i][i]);
-    newLabel.className += labelTags[i][1];
-    newLabel.innerHTML = labelTags[i][2];
-    labels.push(newLabel);
-  }
+//   let labels = [];
+//   for (let i = 0; i < labelTags.length; i++) {
+//     let newLabel = createLabels(labelTags[i][0]);
+//     console.log(labelTags[i][i]);
+//     newLabel.className += labelTags[i][1];
+//     newLabel.innerHTML = labelTags[i][2];
+//     labels.push(newLabel);
+//   }
 
-  let divsInForm = 4;
-  let divs = [];
-  for (let i = 0; i < divsInForm; i++) {
-    let div = createNewElement("div", "form-group");
-    div.appendChild(labels[i]);
-    div.appendChild(inputs[i]);
-    myForm.appendChild(div);
-    divs.push(div);
-  }
-};
-createForm();
+//   let divsInForm = 4;
+//   let divs = [];
+//   for (let i = 0; i < divsInForm; i++) {
+//     let div = createNewElement("div", "form-group");
+//     div.appendChild(labels[i]);
+//     div.appendChild(inputs[i]);
+//     myForm.appendChild(div);
+//     divs.push(div);
+//   }
+// };
+// createForm();
 
-/***
- * add and remove button
- */
-let neededDiv = main.querySelectorAll(".form-group");
-let addPhoneButton = createNewElement("span", "add-phone");
-addPhoneButton.innerHTML = "+";
-let addEmailButton = createNewElement("span", "add-email");
-addEmailButton.innerHTML = "+";
-neededDiv[1].appendChild(addPhoneButton);
-neededDiv[2].appendChild(addEmailButton);
+// /***
+//  * add and remove button
+//  */
+// let neededDiv = main.querySelectorAll(".form-group");
+// let addPhoneButton = createNewElement("span", "add-phone");
+// addPhoneButton.innerHTML = "+";
+// let addEmailButton = createNewElement("span", "add-email");
+// addEmailButton.innerHTML = "+";
+// neededDiv[1].appendChild(addPhoneButton);
+// neededDiv[2].appendChild(addEmailButton);
 
 /**
  * adding phone input fields
@@ -406,63 +406,63 @@ const addTableRowInHistory = (item, id) => {
   list.appendChild(row);
 };
 
-const addTableRow = (item, id) => {
-  let list = document.querySelector(id);
-  let row = document.createElement("tr");
-  let tablePhone = document.createElement("td");
-  let tableName = document.createElement("td");
-  let tableEmail = document.createElement("td");
-  let tableButton1 = document.createElement("td");
-  let tableButton2 = document.createElement("td");
-  let tableButton3 = document.createElement("td");
-  let buttonEdit = document.createElement("button");
-  buttonEdit.className += "edit";
-  let buttonInfo = document.createElement("button");
-  buttonInfo.className += "info";
-  let buttonDelete = document.createElement("button");
-  buttonDelete.className += "delete";
-  tableButton1.appendChild(buttonEdit);
-  tableButton2.appendChild(buttonDelete);
-  tableButton3.appendChild(buttonInfo);
-  buttonDelete.innerHTML = "X";
-  buttonEdit.innerHTML = "edit";
-  buttonInfo.innerHTML = "Info";
-  tableName.innerHTML = item.name;
-  for (let i = 0; i < item.number.length; i++) {
-    if (Array.isArray(item.number)) {
-      let additional = document.createElement("td");
-      additional.innerHTML = item.number[i];
-      let mybr = document.createElement("br");
-      tablePhone.appendChild(mybr);
-      tablePhone.append(additional);
-    } else {
-      tablePhone.innerHTML = item.number;
-    }
-  }
+// const addTableRow = (item, id) => {
+//   let list = document.querySelector(id);
+//   let row = document.createElement("tr");
+//   let tablePhone = document.createElement("td");
+//   let tableName = document.createElement("td");
+//   let tableEmail = document.createElement("td");
+//   let tableButton1 = document.createElement("td");
+//   let tableButton2 = document.createElement("td");
+//   let tableButton3 = document.createElement("td");
+//   let buttonEdit = document.createElement("button");
+//   buttonEdit.className += "edit";
+//   let buttonInfo = document.createElement("button");
+//   buttonInfo.className += "info";
+//   let buttonDelete = document.createElement("button");
+//   buttonDelete.className += "delete";
+//   tableButton1.appendChild(buttonEdit);
+//   tableButton2.appendChild(buttonDelete);
+//   tableButton3.appendChild(buttonInfo);
+//   buttonDelete.innerHTML = "X";
+//   buttonEdit.innerHTML = "edit";
+//   buttonInfo.innerHTML = "Info";
+//   tableName.innerHTML = item.name;
+//   for (let i = 0; i < item.number.length; i++) {
+//     if (Array.isArray(item.number)) {
+//       let additional = document.createElement("td");
+//       additional.innerHTML = item.number[i];
+//       let mybr = document.createElement("br");
+//       tablePhone.appendChild(mybr);
+//       tablePhone.append(additional);
+//     } else {
+//       tablePhone.innerHTML = item.number;
+//     }
+//   }
 
-  tableEmail.innerHTML = item.email;
-  row.setAttribute("id", item.id);
-  row.appendChild(tableName);
-  row.appendChild(tablePhone);
-  row.appendChild(tableEmail);
-  row.appendChild(tableButton1);
-  row.appendChild(tableButton2);
-  row.appendChild(tableButton3);
-  list.appendChild(row);
-};
+//   tableEmail.innerHTML = item.email;
+//   row.setAttribute("id", item.id);
+//   row.appendChild(tableName);
+//   row.appendChild(tablePhone);
+//   row.appendChild(tableEmail);
+//   row.appendChild(tableButton1);
+//   row.appendChild(tableButton2);
+//   row.appendChild(tableButton3);
+//   list.appendChild(row);
+// };
 
-let submitButton = main.querySelector("#add-contact");
-submitButton.className += " add-contact";
-document.body.append(header);
-document.body.append(main);
+// let submitButton = main.querySelector("#add-contact");
+// submitButton.className += " add-contact";
+// document.body.append(header);
+// document.body.append(main);
 
 /**
  * Adding contacts to the DOM
  */
 
-const addContact = contact => {
-  addTableRow(contact, "#contact-list");
-};
+// const addContact = contact => {
+//   addTableRow(contact, "#contact-list");
+// };
 
 {
   /* <i class="edit far fa-edit icon "></i> */
@@ -472,36 +472,36 @@ const addContact = contact => {
  * Displaying contacts from localStorage
  */
 
-const displayContacts = () => {
-  store.map(item => {
-    addTableRow(item, "#contact-list");
-  });
-};
+// const displayContacts = () => {
+//   store.map(item => {
+//     addTableRow(item, "#contact-list");
+//   });
+// };
 
-/**
- * Clearing input fields after adding values to the DOM
- */
+// /**
+//  * Clearing input fields after adding values to the DOM
+//  */
 
-const clearFields = () => {
-  let input = [];
-  input = document.querySelectorAll(".form-input");
-  let inputs = Array.from(input);
-  for (let item of inputs) {
-    item.value = "";
-  }
-  let lastIndex = inputs.length - 1;
-  inputs[lastIndex].value = "Save contact";
-};
+// const clearFields = () => {
+//   let input = [];
+//   input = document.querySelectorAll(".form-input");
+//   let inputs = Array.from(input);
+//   for (let item of inputs) {
+//     item.value = "";
+//   }
+//   let lastIndex = inputs.length - 1;
+//   inputs[lastIndex].value = "Save contact";
+// };
 
-/**
- * Removing contacts from the DOM
- */
+// /**
+//  * Removing contacts from the DOM
+//  */
 
-const deleteContact = elem => {
-  if (elem.classList.contains("delete")) {
-    elem.parentElement.parentElement.remove();
-  }
-};
+// const deleteContact = elem => {
+//   if (elem.classList.contains("delete")) {
+//     elem.parentElement.parentElement.remove();
+//   }
+// };
 
 const ID = () => {
   return (
