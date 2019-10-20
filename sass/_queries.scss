@@ -1,0 +1,138 @@
+@media only screen and (max-width: 1200px) {
+    .container,
+    .container-contact {
+        width: 80%;
+        font-size: 1.9rem;
+    }
+
+    .contacts-form {
+        margin-left: 0;
+        width: 70%;
+    }
+
+    .add-phone,
+    .add-email,
+    .remove-phone,
+    .remove-email {
+        height: 2rem;
+        width: 2rem;
+        margin-left: 0.4rem;
+        font-size: 1.3rem;
+        padding-left: 0.6rem;
+        padding-top: 0.1rem;
+    }
+
+    .contacts-table,
+    .contact-history {
+        width: 70%;
+    }
+
+    .intro-contact {
+        width: 60%;
+        margin-left: -4rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .backButton {
+        left: 43%;
+    }
+
+    .forwardButton {
+        right: 43%;
+    }
+}
+
+@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+    /* Force table to not be like tables anymore */
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
+    }
+
+    /* Hide table headers (but not display: none;, for accessibility) */
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    tr {
+        border: 1px solid #ccc;
+    }
+
+    td {
+        /* Behave  like a "row" */
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    td:before {
+        /* Now like a table header */
+        position: absolute;
+        /* Top/left values mimic padding */
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+    }
+
+    .modal {
+        width: 100%;
+    }
+
+    .modal-content {
+        width: 80%;
+    }
+
+    .intro-contact {
+        width: 60%;
+        margin-left: -2.5rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .button-home {
+        left: 5%;
+    }
+}
+
+@media only screen and (max-width: 1023px) {
+    .container,
+    .container-contact {
+        width: 100%;
+    }
+
+    .backButton,
+    .forwardButton {
+        top: 30%;
+    }
+    .backButton {
+        left: 40%;
+    }
+
+    .forwardButton {
+        right: 40%;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .backButton,
+    .forwardButton {
+        top: 37%;
+    }
+    .backButton {
+        left: 33%;
+    }
+
+    .forwardButton {
+        right: 33%;
+    }
+}
