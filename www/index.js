@@ -325,26 +325,26 @@ const deleteAddEmail = listen("click", ".remove-email", e => {
 
 /**
  * creating table
- */
-let myTable, tblHead, tblRow, tblBody;
-myTable = createNewElement("table", "contacts-table");
-tblHead = document.createElement("thead");
-tblRow = document.createElement("tr");
-tblBody = document.createElement("tbody");
-tblBody.id = "contact-list";
-tblHead.append(tblRow);
-myTable.append(tblHead, tblBody);
-let thNum = 5;
-let categories = [];
-for (let i = 0; i < thNum; i++) {
-  let category = document.createElement("th");
-  tblRow.appendChild(category);
-  categories.push(category);
-}
-categories[0].innerHTML = "Name";
-categories[1].innerHTML = "Phone";
-categories[2].innerHTML = "Email";
-container.append(myTable);
+//  */
+// let myTable, tblHead, tblRow, tblBody;
+// myTable = createNewElement("table", "contacts-table");
+// tblHead = document.createElement("thead");
+// tblRow = document.createElement("tr");
+// tblBody = document.createElement("tbody");
+// tblBody.id = "contact-list";
+// tblHead.append(tblRow);
+// myTable.append(tblHead, tblBody);
+// let thNum = 5;
+// let categories = [];
+// for (let i = 0; i < thNum; i++) {
+//   let category = document.createElement("th");
+//   tblRow.appendChild(category);
+//   categories.push(category);
+// }
+// categories[0].innerHTML = "Name";
+// categories[1].innerHTML = "Phone";
+// categories[2].innerHTML = "Email";
+// container.append(myTable);
 
 /**
  * refreshing contact view info
@@ -503,52 +503,52 @@ const addTableRowInHistory = (item, id) => {
 //   }
 // };
 
-const ID = () => {
-  return (
-    "_" +
-    Math.random()
-      .toString(36)
-      .substr(2, 9)
-  );
-};
+// const ID = () => {
+//   return (
+//     "_" +
+//     Math.random()
+//       .toString(36)
+//       .substr(2, 9)
+//   );
+// };
 
 /**
  * Adding event listeners
  * and creating new contact
  */
 
-let listener = listen("click", ".add-contact", e => {
-  e.preventDefault();
-  let name = document.querySelector(".inputname").value;
-  let numbers = [];
-  numbers = main.querySelectorAll(".inputnumber");
-  let phoneNumber = [];
-  let stable = Array.from(numbers);
-  for (let item of stable) {
-    phoneNumber = [...phoneNumber, ...[item.value]];
-  }
-  let emails = main.querySelectorAll(".inputemail");
-  let emailAdress = [];
-  let stableEmail = Array.from(emails);
-  for (let item of stableEmail) {
-    emailAdress = [...emailAdress, ...[item.value]];
-  }
-  let id = ID();
-  let date = new Date().toLocaleString();
-  let contact = new Contact(id, date, name, phoneNumber, emailAdress);
-  store.push(contact);
-  //   contact.history = [...contact.history, { ...contact }];
-  store.save();
-  addContact(contact);
-  clearFields();
-});
+// let listener = listen("click", ".add-contact", e => {
+//     e.preventDefault();
+//   let name = document.querySelector(".inputname").value;
+//   let numbers = [];
+//   numbers = main.querySelectorAll(".inputnumber");
+//   let phoneNumber = [];
+//   let stable = Array.from(numbers);
+//   for (let item of stable) {
+//     phoneNumber = [...phoneNumber, ...[item.value]];
+//   }
+//   let emails = main.querySelectorAll(".inputemail");
+//   let emailAdress = [];
+//   let stableEmail = Array.from(emails);
+//   for (let item of stableEmail) {
+//     emailAdress = [...emailAdress, ...[item.value]];
+//   }
+//   let id = ID();
+//   let date = new Date().toLocaleString();
+//   let contact = new Contact(id, date, name, phoneNumber, emailAdress);
+// //   store.push(contact);
+// //   //   contact.history = [...contact.history, { ...contact }];
+// //   store.save();
+//   addContact(contact);
+//   clearFields();
+// });
 
-const findID = id => {
-  let result = store.find(contact => {
-    return contact.id === id;
-  });
-  return result;
-};
+// const findID = id => {
+//   let result = store.find(contact => {
+//     return contact.id === id;
+//   });
+//   return result;
+// };
 
 /**
  * Removing contacts from the DOM

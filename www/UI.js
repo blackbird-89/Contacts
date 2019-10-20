@@ -68,7 +68,7 @@ class UI {
       ["text", "name", "name"],
       ["text", "number", "phone number"],
       ["text", "email", "email"],
-      ["submit", "add-contact", ""]
+      ["submit", " add-contact", ""]
     ];
 
     let inputs = [];
@@ -131,10 +131,9 @@ class UI {
     categories[0].innerHTML = "Name";
     categories[1].innerHTML = "Phone";
     categories[2].innerHTML = "Email";
-    // let container = document.querySelector(".container");
 
-    // let submitButton = main.querySelector("#add-contact");
-    // submitButton.className += " add-contact";
+    // let submitButton = document.querySelector("#add-contact");
+    // submitButton.className = " add-contact";
 
     container.append(mainHeading);
     container.append(myForm);
@@ -187,17 +186,17 @@ class UI {
     buttonEdit.innerHTML = "edit";
     buttonInfo.innerHTML = "Info";
     tableName.innerHTML = item.name;
-    for (let i = 0; i < item.number.length; i++) {
-      if (Array.isArray(item.number)) {
-        let additional = document.createElement("td");
-        additional.innerHTML = item.number[i];
-        let mybr = document.createElement("br");
-        tablePhone.appendChild(mybr);
-        tablePhone.append(additional);
-      } else {
-        tablePhone.innerHTML = item.number;
-      }
-    }
+    // for (let i = 0; i < item.number.length; i++) {
+    //   if (Array.isArray(item.number)) {
+    //     // let additional = document.createElement("td");
+    //     additional.innerHTML = item.number[i];
+    //     // let mybr = document.createElement("br");
+    //     // tablePhone.appendChild(mybr);
+    //     // tablePhone.append(additional);
+    //   } else {
+    tablePhone.innerHTML = item.number;
+    //   }
+    // }
 
     tableEmail.innerHTML = item.email;
     row.setAttribute("id", item.id);
@@ -260,20 +259,6 @@ class UI {
     main.append(view);
   }
 
-  static addContact = contact => {
-    addTableRow(contact, "#contact-list");
-  };
-
-  /**
-   * Removing contacts from the DOM
-   */
-
-  static deleteContact = elem => {
-    if (elem.classList.contains("delete")) {
-      elem.parentElement.parentElement.remove();
-    }
-  };
-
   /**
    * Clearing input fields after adding values to the DOM
    */
@@ -287,6 +272,66 @@ class UI {
     }
     let lastIndex = inputs.length - 1;
     inputs[lastIndex].value = "Save contact";
+  };
+
+  static ID = () => {
+    return (
+      "_" +
+      Math.random()
+        .toString(36)
+        .substr(2, 9)
+    );
+  };
+
+  static addContacttoDOM = contact => {
+    this.addTableRow(contact, "#contact-list");
+  };
+
+  static addContact = e => {
+    e.preventDefault();
+    let main = document.querySelector("main");
+    let name = document.querySelector(".inputname").value;
+    let numbers = [];
+    numbers = main.querySelectorAll(".inputnumber");
+    let phoneNumber = [];
+    let stable = Array.from(numbers);
+    for (let item of stable) {
+      phoneNumber = [...phoneNumber, ...[item.value]];
+    }
+    let emails = main.querySelectorAll(".inputemail");
+    let emailAdress = [];
+    let stableEmail = Array.from(emails);
+    for (let item of stableEmail) {
+      emailAdress = [...emailAdress, ...[item.value]];
+    }
+    let id = this.ID();
+    let date = new Date().toLocaleString();
+    let contact = new Contact(id, date, name, phoneNumber, emailAdress);
+    App.addNewContact(contact);
+    //   store.push(contact);
+    //   //   contact.history = [...contact.history, { ...contact }];
+    //   store.save();
+    this.addContacttoDOM(contact);
+    this.clearFields();
+  };
+
+  /**
+   * Removing contacts from the DOM
+   */
+
+  static deleteContactFromDOM = elem => {
+    if (elem.classList.contains("delete")) {
+      elem.parentElement.parentElement.remove();
+    }
+  };
+
+  static deleteContact = e => {
+    let elem = e.target;
+    this.deleteContactFromDOM(elem);
+    if (elem.classList.contains("delete")) {
+      let targetId = elem.parentElement.parentElement.id;
+      App.deleteContact(targetId);
+    }
   };
 }
 

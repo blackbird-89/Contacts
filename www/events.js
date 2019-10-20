@@ -42,4 +42,11 @@ const [listen, unlisten] = (() => {
   return [listen, unlisten];
 })();
 
-listen("click", ".add-contact", e => {});
+listen("click", ".add-contact", e => {
+  e.preventDefault();
+  UI.addContact(e);
+});
+
+listen("click", ".delete", e => {
+  UI.deleteContact(e);
+});
