@@ -4,7 +4,10 @@ import Modal from "./Modal.js";
 import History from "./History.js";
 
 UI.renderHeaderAndMain();
+UI.renderForm();
+UI.renderTable();
 UI.renderContactView();
+
 // UI.displayContacts();
 Modal.renderModal();
 
@@ -99,4 +102,16 @@ listen("click", ".info", e => {
 
 listen("click", ".reset", e => {
   History.resetContact(e);
+});
+
+listen("click", ".backButton", () => {
+  History.stepBack(1);
+});
+
+listen("click", ".forwardButton", () => {
+  History.stepForward(1);
+});
+
+listen("click", ".saveButton", () => {
+  History.saveChanges();
 });

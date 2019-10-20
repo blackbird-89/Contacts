@@ -35,6 +35,37 @@ span {
     background-color: #fff;
 }
 
+.backButton,
+.forwardButton,
+.saveButton {
+    display: inline-block;
+    position: absolute;
+    top: 40%;
+    border: none;
+    width: 6rem;
+    height: 3rem;
+    cursor: pointer;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+}
+
+.backButton {
+    left: 44%;
+}
+
+.forwardButton {
+    right: 44%;
+}
+
+.saveButton {
+    right: 30%;
+    background-color: $primary;
+    color: #fff;
+}
+
 .contacts-form {
     margin-left: 5rem;
     margin-bottom: 2rem;
@@ -60,7 +91,7 @@ label {
     margin-top: 0.4rem;
     //height: calc(1.5em + 0.75rem + 2px);
     height: 3.5rem;
-    border: 0.7px solid #888;
+    border: 0.4px solid #999;
     border-radius: 3px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
@@ -72,7 +103,7 @@ label {
     padding: 5px;
     width: 72%;
     height: 3.5rem;
-    border: 0.7px solid #888;
+    border: 0.4px solid #999;
     border-radius: 3px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
@@ -111,6 +142,10 @@ label {
     margin-left: 4rem;
     border-collapse: collapse;
 }
+
+.contact-history {
+    margin-top: 4rem;
+}
 .contacts-table tr,
 .contact-history tr {
     border-bottom: 1px solid #ddd;
@@ -140,6 +175,13 @@ label {
     margin-top: 3rem;
     font-family: "Lato", sans-serif;
     font-size: 2rem;
+    padding: 2rem;
+}
+
+.intro-contact-heading,
+.intro-contact-phone,
+.intro-contact-email {
+    margin-bottom: 1rem;
 }
 
 .delete,
@@ -215,12 +257,29 @@ label {
     padding-left: 1.1rem;
 }
 
+.icon-user,
+.icon-phone,
+.icon-email {
+    margin-right: 2rem;
+    font-size: 2rem;
+}
+
+.icon-user {
+    font-size: 2.5rem;
+}
+
 .reset {
     border: none;
     height: 3rem;
     width: 6rem;
     cursor: pointer;
-    background-color: $color-grey-light-2;
+    background-color: $primary;
+    color: #fff;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
 }
 
 .modal {

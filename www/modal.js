@@ -2,11 +2,6 @@ import UI from "./UI.js";
 import Store from "./Store.js";
 
 class Modal {
-  //   static createNewElement(elem, className) {
-  //     let newEl = document.createElement(elem);
-  //     newEl.className += className;
-  //     return newEl;
-  //   }
   static renderModal = () => {
     let modal = UI.createNewElement("div", "modal");
     let innerDiv = UI.createNewElement("div", "modal-content");
@@ -14,22 +9,6 @@ class Modal {
     let buttonModal = UI.createNewElement("button", "close-button");
     buttonModal.innerHTML = "X";
     let formModal = UI.createNewElement("form", "form-modal");
-
-    // let inputsModalTags = [
-    //   ["text", "name-modal"],
-    //   ["text", "number-modal"],
-    //   ["text", "email-modal"],
-    //   ["submit", "save-contact", ""]
-    // ];
-
-    // let inputsModal = [];
-
-    // for (let i = 0; i < inputsModalTags.length; i++) {
-    //   let newInput = createInput(inputsModalTags[i][0], inputsModalTags[i][1]);
-    //   inputsModal.push(newInput);
-    // }
-
-    // inputsModal[3].value = "Save";
 
     let labelTagsModal = [
       ["name", "label-name", "Name"],
@@ -46,7 +25,6 @@ class Modal {
       labelsModal.push(newLabel);
     }
 
-    //Craeting divs for input fields
     let divsInFormModal = 4;
     let divsModal = [];
     for (let i = 0; i < divsInFormModal; i++) {
@@ -62,7 +40,6 @@ class Modal {
     headingModal.innerHTML = "Edit contact";
     let lastDiv = divsModal[3];
     lastDiv.appendChild(buttonSave);
-
     innerDiv.appendChild(headingModal);
     innerDiv.appendChild(buttonModal);
     innerDiv.append(formModal);
@@ -146,16 +123,8 @@ class Modal {
       divs[2].appendChild(removeEmailButton);
       divs[2].appendChild(addEmailButton);
     }
-
     divs[0].appendChild(inputName);
-
-    // console.log(neededDiv[0], "div");
   };
-
-  //   static closeModal = listen("click", ".close-button", () => {
-  //     this.refreshModal();
-  //     this.toggleModal("");
-  //   });
 
   static showModal = id => {
     this.toggleModal(id);
@@ -196,17 +165,14 @@ class Modal {
     inputsPhone = document.querySelectorAll(".inputphone-modal");
     let stable = Array.from(inputsPhone);
     let stableEmail = Array.from(inputsEmail);
-
     let phoneNumbers = [];
     for (let item of stable) {
       phoneNumbers.push(item.value);
     }
-
     let emails = [];
     for (let item of stableEmail) {
       emails.push(item.value);
     }
-
     let comparedPhone;
     if (phoneNumbers.length === contactToEdit.number.length) {
       for (let i = 0; i < phoneNumbers.length; i++) {
@@ -251,17 +217,11 @@ class Modal {
       contactToEdit.history = [...contactToEdit.history, { ...editedContact }];
       let newVersion = Object.assign(contactToEdit, editedContact);
       Store.editContact(contactToEdit, newVersion);
-      //   let index = store.indexOf(contactToEdit);
       let changeValue = document.getElementById(id);
       changeValue.children[0].innerHTML = newVersion.name;
       changeValue.children[1].innerHTML = newVersion.number;
       changeValue.children[2].innerHTML = newVersion.email;
-      //   store.splice(index, 1, newVersion);
-      //   store.save();
-      //   this.refreshModal();
     }
-
-    // this.toggleModal("");
   };
 }
 

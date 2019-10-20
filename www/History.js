@@ -1,6 +1,7 @@
 import Store from "./Store.js";
 import UI from "./UI.js";
 
+let counter = 0;
 class History {
   static introContactHistory = contact => {
     let elem = document.querySelector(".intro-contact");
@@ -8,13 +9,21 @@ class History {
     let phoneNumber = UI.createNewElement("p", "intro-contact-phone");
     let email = UI.createNewElement("p", "intro-contact-email");
     let buttonHome = document.createElement("button");
+    let iconUser = UI.createNewElement("span", "icon-user");
+    let iconPhone = UI.createNewElement("span", "icon-phone");
+    let iconEmail = UI.createNewElement("span", "icon-email");
+    iconUser.innerHTML = '<i class="fas fa-user"></i>';
+    iconPhone.innerHTML = '<i class="fas fa-phone"></i>';
+    iconEmail.innerHTML = '<i class="far fa-envelope"></i>';
     buttonHome.className = "button-home";
     buttonHome.innerHTML = '<i class="fas fa-arrow-left"></i>';
     heading.innerHTML = contact.name;
     phoneNumber.innerHTML = contact.number;
     email.innerHTML = contact.email;
     elem.appendChild(buttonHome);
-
+    heading.prepend(iconUser);
+    phoneNumber.prepend(iconPhone);
+    email.prepend(iconEmail);
     elem.appendChild(heading);
     elem.appendChild(phoneNumber);
     elem.appendChild(email);
@@ -28,6 +37,7 @@ class History {
 
   static addTableRowInHistory = (item, id) => {
     let list = document.querySelector(id);
+    list.setAttribute("id", item.id);
     let tableDate = document.createElement("td");
     let tableName = document.createElement("td");
     let tablePhone = document.createElement("td");
@@ -87,30 +97,59 @@ class History {
     let found = history.find(contact => {
       return contact.date === timestamp;
     });
-    //last one -- need later for pointer
-    //   let currentContactIndex = history.length - 1;
+    this.updateContact(found, id);
+  };
 
-    let copy = { ...found };
+  static stepBack = num => {
+    counter = counter + num;
+  };
+
+  static stepForward = num => {
+    counter = counter - num;
+  };
+
+  static updateContact = (contact, id) => {
+    let contactToShow = Store.findID(id);
+    let copy = { ...contact };
     copy.date = new Date().toLocaleString();
     contactToShow.history = [...contactToShow.history, { ...copy }];
-    //   contactToShow = { ...found };
     let newVersion = Object.assign(contactToShow, copy);
     Store.resetContact(contactToShow, newVersion);
-
     this.refreshContactInfo();
     this.refreshTableHistory(".contact-history");
     let elem = document.querySelector(".intro-contact");
+    elem.id = newVersion.id;
     let alertInfo = UI.createNewElement("p", "alertInfo");
     alertInfo.innerHTML = "Updated";
     elem.append(alertInfo);
-    this.introContactHistory(found);
+    this.introContactHistory(copy);
     setTimeout(() => {
       alertInfo.style.display = "none";
     }, 3000);
-
     newVersion.history.map(item => {
       this.addTableRowInHistory(item, ".contact-history");
     });
+  };
+
+  static saveChanges = () => {
+    let id = document.querySelector(".contact-history").getAttribute("id");
+    let contactToShow = Store.findID(id);
+    let current = counter;
+    let history = contactToShow.history;
+    if (counter === 0) {
+      return;
+    }
+    if (counter > history.length) {
+      return;
+    }
+    if (counter < 0) {
+      return;
+    } else {
+      let currentContIndex = history.length - current;
+      let contact = history[currentContIndex];
+      this.updateContact(contact, id);
+      counter = 0;
+    }
   };
 }
 

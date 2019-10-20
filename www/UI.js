@@ -39,69 +39,24 @@ class UI {
     let containerRouter = this.createNewElement("div", "route1");
     container = this.createNewElement("div", "container");
     containerRouter.setAttribute("id", "home");
-
     mainHeading = this.createNewElement("h1", "");
     mainHeading.innerHTML = `<i class="fas fa-book-open text-primary"></i
     > My<span>Contact</span>List
     `;
-
-    //form
-    let myForm;
-    myForm = this.createNewElement("form", "contacts-form");
-    // let container = document.querySelector(".container");
     container.append(mainHeading);
+    containerRouter.append(container);
+    main.append(containerRouter);
+    document.body.append(header);
+    document.body.append(main);
+  }
 
-    //Creating inputs
-    let inputTags = [
-      ["text", "name", "name"],
-      ["text", "number", "phone number"],
-      ["text", "email", "email"],
-      ["submit", " add-contact", ""]
-    ];
+  /**
+   * creating table
+   */
 
-    let inputs = [];
-    for (let i = 0; i < inputTags.length; i++) {
-      let newInput = this.createInput(
-        inputTags[i][0],
-        inputTags[i][1],
-        inputTags[i][2]
-      );
-      inputs.push(newInput);
-    }
-
-    inputs[3].value = "Save contact";
-    inputs[3].id = "add-contact";
-
-    let labelTags = [
-      ["name", "label-name", "Name"],
-      ["phone", "label-name", "Phone"],
-      ["email", "label-name", "Email"],
-      ["", "", ""]
-    ];
-
-    let labels = [];
-    for (let i = 0; i < labelTags.length; i++) {
-      let newLabel = this.createLabels(labelTags[i][0]);
-      console.log(labelTags[i][i]);
-      newLabel.className += labelTags[i][1];
-      newLabel.innerHTML = labelTags[i][2];
-      labels.push(newLabel);
-    }
-
-    let divsInForm = 4;
-    let divs = [];
-    for (let i = 0; i < divsInForm; i++) {
-      let div = this.createNewElement("div", "form-group");
-      div.appendChild(labels[i]);
-      div.appendChild(inputs[i]);
-      myForm.appendChild(div);
-      divs.push(div);
-    }
-
-    /**
-     * creating table
-     */
+  static renderTable = () => {
     let myTable, tblHead, tblRow, tblBody;
+    let container = document.querySelector(".container");
     myTable = this.createNewElement("table", "contacts-table");
     tblHead = document.createElement("thead");
     tblRow = document.createElement("tr");
@@ -119,20 +74,60 @@ class UI {
     categories[0].innerHTML = "Name";
     categories[1].innerHTML = "Phone";
     categories[2].innerHTML = "Email";
-
-    // let submitButton = document.querySelector("#add-contact");
-    // submitButton.className = " add-contact";
-
-    container.append(mainHeading);
-    container.append(myForm);
-
     container.append(myTable);
-    containerRouter.append(container);
-    main.append(containerRouter);
-    document.body.append(header);
-    document.body.append(main);
+  };
 
+  static renderForm = () => {
+    //form
+    let myForm;
+    myForm = this.createNewElement("form", "contacts-form");
+    let container = document.querySelector(".container");
+
+    //Creating inputs
+    let inputTags = [
+      ["text", "name", "name"],
+      ["text", "number", "phone number"],
+      ["text", "email", "email"],
+      ["submit", " add-contact", ""]
+    ];
+    let inputs = [];
+    for (let i = 0; i < inputTags.length; i++) {
+      let newInput = this.createInput(
+        inputTags[i][0],
+        inputTags[i][1],
+        inputTags[i][2]
+      );
+      inputs.push(newInput);
+    }
+    inputs[3].value = "Save contact";
+    inputs[3].id = "add-contact";
+    let labelTags = [
+      ["name", "label-name", "Name"],
+      ["phone", "label-name", "Phone"],
+      ["email", "label-name", "Email"],
+      ["", "", ""]
+    ];
+
+    let labels = [];
+    for (let i = 0; i < labelTags.length; i++) {
+      let newLabel = this.createLabels(labelTags[i][0]);
+      console.log(labelTags[i][i]);
+      newLabel.className += labelTags[i][1];
+      newLabel.innerHTML = labelTags[i][2];
+      labels.push(newLabel);
+    }
+    let divsInForm = 4;
+    let divs = [];
+    for (let i = 0; i < divsInForm; i++) {
+      let div = this.createNewElement("div", "form-group");
+      div.appendChild(labels[i]);
+      div.appendChild(inputs[i]);
+      myForm.appendChild(div);
+      divs.push(div);
+    }
+    container.append(myForm);
     //nav buttons
+    let main = document.querySelector("main");
     let neededDiv = main.querySelectorAll(".form-group");
     let addPhoneButton = this.createNewElement("span", "add-phone");
     addPhoneButton.innerHTML = "+";
@@ -140,6 +135,14 @@ class UI {
     addEmailButton.innerHTML = "+";
     neededDiv[1].appendChild(addPhoneButton);
     neededDiv[2].appendChild(addEmailButton);
+    container.append(myForm);
+  };
+
+  static rerenderForm() {
+    let myForm = document.querySelector(".contacts-form");
+    myForm.remove();
+    let myTable = document.querySelector(".contacts-table");
+    myTable.remove();
   }
 
   /**
@@ -227,9 +230,6 @@ class UI {
     //     // tablePhone.append(additional);
     //   } else {
     tablePhone.innerHTML = item.number;
-    //   }
-    // }
-
     tableEmail.innerHTML = item.email;
     row.setAttribute("id", item.id);
     row.appendChild(tableName);
@@ -246,25 +246,20 @@ class UI {
       this.addTableRow(item, "#contact-list");
     });
   };
-  //   static createForm = () => {};
 
   /***
    * add and remove button
    */
-  //   static createButtons = () => {};
 
   static renderContactView() {
     let view = this.createNewElement("div", "route2");
     let containerContact = this.createNewElement("div", "container-contact");
-
     view.setAttribute("id", "view");
     let headingView = this.createNewElement("h1", "");
     headingView.innerHTML = `<i class="fas fa-book-open text-primary"></i
     > Contact</span>
     `;
-
     containerContact.appendChild(headingView);
-
     let introduction = this.createNewElement("div", "intro-contact");
     containerContact.appendChild(introduction);
     let contactTable, conTblHead, conTblRow, conTblBody;
@@ -286,8 +281,18 @@ class UI {
     tableItems[1].innerHTML = "Name";
     tableItems[2].innerHTML = "Phone";
     tableItems[3].innerHTML = "Email";
-
     containerContact.append(contactTable);
+    let backButton = UI.createNewElement("button", "backButton");
+    let forwardButton = UI.createNewElement("button", "forwardButton");
+    let saveButton = UI.createNewElement("button", "saveButton");
+    backButton.innerHTML = "Back";
+    forwardButton.innerHTML = "Forward";
+    saveButton.innerHTML = "Save";
+
+    containerContact.append(backButton);
+    containerContact.append(forwardButton);
+    containerContact.append(saveButton);
+
     view.append(containerContact);
     let main = document.querySelector("main");
     main.append(view);
@@ -346,9 +351,6 @@ class UI {
     let date = new Date().toLocaleString();
     let contact = new Contact(id, date, name, phoneNumber, emailAdress);
     Store.addNewContact(contact);
-    //   store.push(contact);
-    //   //   contact.history = [...contact.history, { ...contact }];
-    //   store.save();
     this.addContacttoDOM(contact);
     this.clearFields();
   };
