@@ -32,19 +32,8 @@ class UI {
     header = this.createNewElement("header", "");
     main = document.createElement("main");
     main.setAttribute("id", "content");
-    /**
-     * buttons for navigation
-     */
-    let buttonHome = this.createNewElement("button", "button-home");
-    buttonHome.innerHTML = "Home";
-    let buttonView = this.createNewElement("button", "button-view");
-    buttonView.innerHTML = "View";
-
     let divHeader = this.createNewElement("div", "header-container");
-    divHeader.appendChild(buttonHome);
-    divHeader.appendChild(buttonView);
     header.appendChild(divHeader);
-
     //Create main heading and form
     let container, mainHeading;
     let containerRouter = this.createNewElement("div", "route1");
@@ -151,16 +140,6 @@ class UI {
     addEmailButton.innerHTML = "+";
     neededDiv[1].appendChild(addPhoneButton);
     neededDiv[2].appendChild(addEmailButton);
-
-    //navigating
-    buttonHome.addEventListener("click", () => {
-      onNavigate("/");
-      this.displayContacts();
-    });
-
-    buttonView.addEventListener("click", () => {
-      onNavigate("/contact");
-    });
   }
 
   /**
@@ -227,16 +206,16 @@ class UI {
     let tableButton2 = document.createElement("td");
     let tableButton3 = document.createElement("td");
     let buttonEdit = document.createElement("button");
-    buttonEdit.className += "edit";
+    buttonEdit.className = "edit";
     let buttonInfo = document.createElement("button");
-    buttonInfo.className += "info";
+    buttonInfo.className = "info";
     let buttonDelete = document.createElement("button");
-    buttonDelete.className += "delete";
+    buttonDelete.className = "delete";
     tableButton1.appendChild(buttonEdit);
     tableButton2.appendChild(buttonDelete);
     tableButton3.appendChild(buttonInfo);
-    buttonDelete.innerHTML = "X";
-    buttonEdit.innerHTML = "edit";
+    buttonDelete.innerHTML = "Delete";
+    buttonEdit.innerHTML = "Edit";
     buttonInfo.innerHTML = "Info";
     tableName.innerHTML = item.name;
     // for (let i = 0; i < item.number.length; i++) {
@@ -283,7 +262,9 @@ class UI {
     headingView.innerHTML = `<i class="fas fa-book-open text-primary"></i
     > Contact</span>
     `;
+
     containerContact.appendChild(headingView);
+
     let introduction = this.createNewElement("div", "intro-contact");
     containerContact.appendChild(introduction);
     let contactTable, conTblHead, conTblRow, conTblBody;

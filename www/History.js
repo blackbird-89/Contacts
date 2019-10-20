@@ -7,12 +7,23 @@ class History {
     let heading = UI.createNewElement("h2", "intro-contact-heading");
     let phoneNumber = UI.createNewElement("p", "intro-contact-phone");
     let email = UI.createNewElement("p", "intro-contact-email");
+    let buttonHome = document.createElement("button");
+    buttonHome.className = "button-home";
+    buttonHome.innerHTML = '<i class="fas fa-arrow-left"></i>';
     heading.innerHTML = contact.name;
     phoneNumber.innerHTML = contact.number;
     email.innerHTML = contact.email;
+    elem.appendChild(buttonHome);
+
     elem.appendChild(heading);
     elem.appendChild(phoneNumber);
     elem.appendChild(email);
+
+    //navigating
+    buttonHome.addEventListener("click", () => {
+      onNavigate("/");
+      UI.displayContacts();
+    });
   };
 
   static addTableRowInHistory = (item, id) => {

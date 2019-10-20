@@ -10,7 +10,6 @@ class Store {
 
   static addNewContact = contact => {
     store.push(contact);
-    //   contact.history = [...contact.history, { ...contact }];
     store.save();
   };
 
