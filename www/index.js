@@ -39,16 +39,16 @@
  * Setting up local storage
  */
 
-let store;
-try {
-  store = JSON.parse(localStorage.store);
-} catch (e) {
-  store = [];
-}
+// let store;
+// try {
+//   store = JSON.parse(localStorage.store);
+// } catch (e) {
+//   store = [];
+// }
 
-store.save = function() {
-  localStorage.store = JSON.stringify(this);
-};
+// store.save = function() {
+//   localStorage.store = JSON.stringify(this);
+// };
 
 /* PROTOTYPE*/
 
@@ -81,18 +81,18 @@ store.save = function() {
 // }
 
 // let myContacts = new ContactsBook();
-// console.log(myContacts, "contacts");
+// // console.log(myContacts, "contacts");
 
-class Contact {
-  constructor(id, date, name, number, email) {
-    this.id = id;
-    this.date = date;
-    this.name = name;
-    this.number = number;
-    this.email = email;
-    this.history = [];
-  }
-}
+// class Contact {
+//   constructor(id, date, name, number, email) {
+//     this.id = id;
+//     this.date = date;
+//     this.name = name;
+//     this.number = number;
+//     this.email = email;
+//     this.history = [];
+//   }
+// }
 
 /***********
  * Creating markup
@@ -350,61 +350,61 @@ const deleteAddEmail = listen("click", ".remove-email", e => {
  * refreshing contact view info
  */
 
-const refreshContactInfo = () => {
-  let elem = document.querySelector(".intro-contact");
-  let heading = document.querySelector(".intro-contact-heading");
-  let phoneNumber = document.querySelector(".intro-contact-phone");
-  let email = document.querySelector(".intro-contact-email");
-  elem.removeChild(heading);
-  elem.removeChild(phoneNumber);
-  elem.removeChild(email);
-};
+// const refreshContactInfo = () => {
+//   let elem = document.querySelector(".intro-contact");
+//   let heading = document.querySelector(".intro-contact-heading");
+//   let phoneNumber = document.querySelector(".intro-contact-phone");
+//   let email = document.querySelector(".intro-contact-email");
+//   elem.removeChild(heading);
+//   elem.removeChild(phoneNumber);
+//   elem.removeChild(email);
+// };
 
-const refreshTable = id => {
-  let list = document.querySelector(id);
-  list.innerHTML = "";
-};
+// const refreshTableHistory = id => {
+//   let list = document.querySelector(id);
+//   list.innerHTML = "";
+// };
 
 /**
  * refreshing introduction contact view
  */
-const introContact = contact => {
-  let elem = document.querySelector(".intro-contact");
-  let heading = createNewElement("h2", "intro-contact-heading");
-  let phoneNumber = createNewElement("p", "intro-contact-phone");
-  let email = createNewElement("p", "intro-contact-email");
-  heading.innerHTML = contact.name;
-  phoneNumber.innerHTML = contact.number;
-  email.innerHTML = contact.email;
-  elem.appendChild(heading);
-  elem.appendChild(phoneNumber);
-  elem.appendChild(email);
-};
+// const introContact = contact => {
+//   let elem = document.querySelector(".intro-contact");
+//   let heading = createNewElement("h2", "intro-contact-heading");
+//   let phoneNumber = createNewElement("p", "intro-contact-phone");
+//   let email = createNewElement("p", "intro-contact-email");
+//   heading.innerHTML = contact.name;
+//   phoneNumber.innerHTML = contact.number;
+//   email.innerHTML = contact.email;
+//   elem.appendChild(heading);
+//   elem.appendChild(phoneNumber);
+//   elem.appendChild(email);
+// };
 
-const addTableRowInHistory = (item, id) => {
-  let list = document.querySelector(id);
-  let tableDate = document.createElement("td");
-  let tableName = document.createElement("td");
-  let tablePhone = document.createElement("td");
-  let tableEmail = document.createElement("td");
-  let tableButton3 = document.createElement("td");
-  let buttonReset = document.createElement("button");
-  buttonReset.className += "reset";
-  tableButton3.appendChild(buttonReset);
-  buttonReset.innerHTML = "Återställ";
-  tableDate.innerHTML = item.date;
-  tableName.innerHTML = item.name;
-  tablePhone.innerHTML = item.number;
-  tableEmail.innerHTML = item.email;
-  let row = document.createElement("tr", "row-contact");
-  row.setAttribute("id", item.id);
-  row.appendChild(tableDate);
-  row.appendChild(tableName);
-  row.appendChild(tablePhone);
-  row.appendChild(tableEmail);
-  row.appendChild(tableButton3);
-  list.appendChild(row);
-};
+// const addTableRowInHistory = (item, id) => {
+//   let list = document.querySelector(id);
+//   let tableDate = document.createElement("td");
+//   let tableName = document.createElement("td");
+//   let tablePhone = document.createElement("td");
+//   let tableEmail = document.createElement("td");
+//   let tableButton3 = document.createElement("td");
+//   let buttonReset = document.createElement("button");
+//   buttonReset.className += "reset";
+//   tableButton3.appendChild(buttonReset);
+//   buttonReset.innerHTML = "Återställ";
+//   tableDate.innerHTML = item.date;
+//   tableName.innerHTML = item.name;
+//   tablePhone.innerHTML = item.number;
+//   tableEmail.innerHTML = item.email;
+//   let row = document.createElement("tr", "row-contact");
+//   row.setAttribute("id", item.id);
+//   row.appendChild(tableDate);
+//   row.appendChild(tableName);
+//   row.appendChild(tablePhone);
+//   row.appendChild(tableEmail);
+//   row.appendChild(tableButton3);
+//   list.appendChild(row);
+// };
 
 // const addTableRow = (item, id) => {
 //   let list = document.querySelector(id);
@@ -555,206 +555,200 @@ const addTableRowInHistory = (item, id) => {
  * Deleting contact from local storage, on click
  */
 
-let listener2 = listen("click", ".delete", e => {
-  deleteContact(e.target);
-  let elem = e.target;
-  if (elem.classList.contains("delete")) {
-    let targetId = elem.parentElement.parentElement.id;
-    let itemToDelete = findID(targetId);
-    let index = store.indexOf(itemToDelete);
-    store.splice(index, 1);
-    store.save();
-  }
-});
+// let listener2 = listen("click", ".delete", e => {
+//   deleteContact(e.target);
+//   let elem = e.target;
+//   if (elem.classList.contains("delete")) {
+//     let targetId = elem.parentElement.parentElement.id;
+//     let itemToDelete = findID(targetId);
+//     let index = store.indexOf(itemToDelete);
+//     store.splice(index, 1);
+//     store.save();
+//   }
+// });
 
 let closeButton = document.querySelector(".close-button");
 
-const editContact = listen("click", ".edit", e => {
-  let id = e.target.parentElement.parentElement.id;
-  toggleModal(id);
-  let contactToEdit = findID(id);
-  createModalInputs(contactToEdit);
-});
+// const editContact = listen("click", ".edit", e => {
+//   let id = e.target.parentElement.parentElement.id;
+//   toggleModal(id);
+//   let contactToEdit = findID(id);
+//   createModalInputs(contactToEdit);
+// });
 
-const createModalInputs = contact => {
-  let inputName = createInput("text", "name-modal modal-input", "name");
-  let divs = [];
-  divs = document.querySelectorAll(".form-group-modal");
-  inputName.value = contact.name;
-  if (Array.isArray(contact.number) && contact.number.length > 1) {
-    for (let i = 0; i < contact.number.length; i++) {
-      let inputPhone = createInput(
-        "text",
-        "phone-modal modal-input",
-        "phone number"
-      );
-      let removePhoneButton = createNewElement("span", "remove-phone");
-      removePhoneButton.innerHTML = "X";
-      let addPhoneButton = createNewElement("span", "add-phone");
-      addPhoneButton.innerHTML = "+";
-      inputPhone.value = contact.number[i];
-      divs[1].appendChild(inputPhone);
-      divs[1].appendChild(removePhoneButton);
-      divs[1].appendChild(addPhoneButton);
-    }
-  } else {
-    let inputPhone1 = createInput(
-      "text",
-      "phone-modal modal-input",
-      "phone number"
-    );
-    let removePhoneButton = createNewElement("span", "remove-phone");
-    removePhoneButton.innerHTML = "X";
-    let addPhoneButton = createNewElement("span", "add-phone");
-    addPhoneButton.innerHTML = "+";
-    inputPhone1.value = contact.number;
-    divs[1].appendChild(inputPhone1);
-    divs[1].appendChild(removePhoneButton);
-    divs[1].appendChild(addPhoneButton);
-  }
+// const createModalInputs = contact => {
+//   let inputName = createInput("text", "name-modal modal-input", "name");
+//   let divs = [];
+//   divs = document.querySelectorAll(".form-group-modal");
+//   inputName.value = contact.name;
+//   if (Array.isArray(contact.number) && contact.number.length > 1) {
+//     for (let i = 0; i < contact.number.length; i++) {
+//       let inputPhone = createInput(
+//         "text",
+//         "phone-modal modal-input",
+//         "phone number"
+//       );
+//       let removePhoneButton = createNewElement("span", "remove-phone");
+//       removePhoneButton.innerHTML = "X";
+//       let addPhoneButton = createNewElement("span", "add-phone");
+//       addPhoneButton.innerHTML = "+";
+//       inputPhone.value = contact.number[i];
+//       divs[1].appendChild(inputPhone);
+//       divs[1].appendChild(removePhoneButton);
+//       divs[1].appendChild(addPhoneButton);
+//     }
+//   } else {
+//     let inputPhone1 = createInput(
+//       "text",
+//       "phone-modal modal-input",
+//       "phone number"
+//     );
+//     let removePhoneButton = createNewElement("span", "remove-phone");
+//     removePhoneButton.innerHTML = "X";
+//     let addPhoneButton = createNewElement("span", "add-phone");
+//     addPhoneButton.innerHTML = "+";
+//     inputPhone1.value = contact.number;
+//     divs[1].appendChild(inputPhone1);
+//     divs[1].appendChild(removePhoneButton);
+//     divs[1].appendChild(addPhoneButton);
+//   }
 
-  //email
+//   //email
 
-  if (Array.isArray(contact.email) && contact.email.length > 1) {
-    for (let i = 0; i < contact.email.length; i++) {
-      let inputEmail = createInput("text", "email-modal modal-input", "email");
-      inputEmail.value = contact.email[i];
-      let removeEmailButton = createNewElement("span", "remove-email");
-      removeEmailButton.innerHTML = "X";
-      let addEmailButton = createNewElement("span", "add-email");
-      addEmailButton.innerHTML = "+";
-      divs[2].appendChild(inputEmail);
-      divs[2].appendChild(removeEmailButton);
-      divs[2].appendChild(addEmailButton);
-    }
-  } else {
-    let inputEmail1 = createInput("text", "email-modal modal-input", "email");
-    let removeEmailButton = createNewElement("span", "remove-email");
-    removeEmailButton.innerHTML = "X";
-    let addEmailButton = createNewElement("span", "add-email");
-    addEmailButton.innerHTML = "+";
-    inputEmail1.value = contact.email;
-    divs[2].appendChild(inputEmail1);
-    divs[2].appendChild(removeEmailButton);
-    divs[2].appendChild(addEmailButton);
-  }
+//   if (Array.isArray(contact.email) && contact.email.length > 1) {
+//     for (let i = 0; i < contact.email.length; i++) {
+//       let inputEmail = createInput("text", "email-modal modal-input", "email");
+//       inputEmail.value = contact.email[i];
+//       let removeEmailButton = createNewElement("span", "remove-email");
+//       removeEmailButton.innerHTML = "X";
+//       let addEmailButton = createNewElement("span", "add-email");
+//       addEmailButton.innerHTML = "+";
+//       divs[2].appendChild(inputEmail);
+//       divs[2].appendChild(removeEmailButton);
+//       divs[2].appendChild(addEmailButton);
+//     }
+//   } else {
+//     let inputEmail1 = createInput("text", "email-modal modal-input", "email");
+//     let removeEmailButton = createNewElement("span", "remove-email");
+//     removeEmailButton.innerHTML = "X";
+//     let addEmailButton = createNewElement("span", "add-email");
+//     addEmailButton.innerHTML = "+";
+//     inputEmail1.value = contact.email;
+//     divs[2].appendChild(inputEmail1);
+//     divs[2].appendChild(removeEmailButton);
+//     divs[2].appendChild(addEmailButton);
+//   }
 
-  divs[0].appendChild(inputName);
+//   divs[0].appendChild(inputName);
 
-  // console.log(neededDiv[0], "div");
-};
+//   // console.log(neededDiv[0], "div");
+// };
 
-refreshModal = () => {
-  let inputsToDelete = [];
-  inputsToDelete = document
-    .querySelectorAll(".modal-input")
-    .forEach(e => e.parentNode.removeChild(e));
-  let modal = document.querySelector(".modal");
+// refreshModal = () => {
+//   let inputsToDelete = [];
+//   inputsToDelete = document
+//     .querySelectorAll(".modal-input")
+//     .forEach(e => e.parentNode.removeChild(e));
+//   let modal = document.querySelector(".modal");
 
-  let buttonToDelete = modal
-    .querySelectorAll(".add-phone")
-    .forEach(e => e.parentNode.removeChild(e));
+//   let buttonToDelete = modal
+//     .querySelectorAll(".add-phone")
+//     .forEach(e => e.parentNode.removeChild(e));
 
-  let buttonToDelete2 = modal
-    .querySelectorAll(".add-email")
-    .forEach(e => e.parentNode.removeChild(e));
-  let buttonToDelete3 = modal
-    .querySelectorAll(".remove-email")
-    .forEach(e => e.parentNode.removeChild(e));
-  let buttonToDelete4 = modal
-    .querySelectorAll(".remove-phone")
-    .forEach(e => e.parentNode.removeChild(e));
-};
+//   let buttonToDelete2 = modal
+//     .querySelectorAll(".add-email")
+//     .forEach(e => e.parentNode.removeChild(e));
+//   let buttonToDelete3 = modal
+//     .querySelectorAll(".remove-email")
+//     .forEach(e => e.parentNode.removeChild(e));
+//   let buttonToDelete4 = modal
+//     .querySelectorAll(".remove-phone")
+//     .forEach(e => e.parentNode.removeChild(e));
+// };
 
-const saveEdit = listen("submit", ".form-modal", e => {
-  e.preventDefault();
-  let id = e.target.parentElement.parentElement.id;
-  let contactToEdit = findID(id);
-  let inputsPhone = [];
-  let inputsEmail = [];
-  let inputName = document.querySelector(".inputname-modal");
-  inputsEmail = document.querySelectorAll(".inputemail-modal");
-  inputsPhone = document.querySelectorAll(".inputphone-modal");
-  let stable = Array.from(inputsPhone);
-  let stableEmail = Array.from(inputsEmail);
-
-  let phoneNumbers = [];
-  for (let item of stable) {
-    phoneNumbers.push(item.value);
-  }
-
-  let emails = [];
-  for (let item of stableEmail) {
-    emails.push(item.value);
-  }
-
-  let comparedPhone;
-  if (phoneNumbers.length === contactToEdit.number.length) {
-    for (let i = 0; i < phoneNumbers.length; i++) {
-      if (phoneNumbers[i] === contactToEdit.number[i]) {
-        comparedPhone = "same";
-      } else {
-        comparedPhone = "different";
-        break;
-      }
-    }
-  } else {
-    comparedPhone = "different";
-  }
-
-  let comparedEmail;
-  if (emails.length === contactToEdit.email.length) {
-    for (let i = 0; i < emails.length; i++) {
-      if (emails[i] === contactToEdit.email[i]) {
-        comparedEmail = "same";
-      } else {
-        comparedEmail = "different";
-        break;
-      }
-    }
-  } else {
-    comparedPhone = "different";
-  }
-  if (
-    inputName.value === contactToEdit.name &&
-    comparedPhone === "same" &&
-    comparedEmail === "same"
-  ) {
-  } else {
-    let editedContact = {
-      id: contactToEdit.id,
-      date: new Date().toLocaleString(),
-      name: inputName.value,
-      number: [...phoneNumbers],
-      email: [...emails]
-    };
-
-    contactToEdit.history = [...contactToEdit.history, { ...editedContact }];
-    let newVersion = Object.assign(contactToEdit, editedContact);
-    let index = store.indexOf(contactToEdit);
-    let changeValue = document.getElementById(id);
-    changeValue.children[0].innerHTML = newVersion.name;
-    changeValue.children[1].innerHTML = newVersion.number;
-    changeValue.children[2].innerHTML = newVersion.email;
-    store.splice(index, 1, newVersion);
-    store.save();
-    refreshModal();
-  }
-
-  toggleModal("");
-});
+// const saveEdit = listen("submit", ".form-modal", e => {
+//   e.preventDefault();
+//   let id = e.target.parentElement.parentElement.id;
+//   let contactToEdit = findID(id);
+//   let inputsPhone = [];
+//   let inputsEmail = [];
+//   let inputName = document.querySelector(".inputname-modal");
+//   inputsEmail = document.querySelectorAll(".inputemail-modal");
+//   inputsPhone = document.querySelectorAll(".inputphone-modal");
+//   let stable = Array.from(inputsPhone);
+//   let stableEmail = Array.from(inputsEmail);
+//   let phoneNumbers = [];
+//   for (let item of stable) {
+//     phoneNumbers.push(item.value);
+//   }
+//   let emails = [];
+//   for (let item of stableEmail) {
+//     emails.push(item.value);
+//   }
+//   let comparedPhone;
+//   if (phoneNumbers.length === contactToEdit.number.length) {
+//     for (let i = 0; i < phoneNumbers.length; i++) {
+//       if (phoneNumbers[i] === contactToEdit.number[i]) {
+//         comparedPhone = "same";
+//       } else {
+//         comparedPhone = "different";
+//         break;
+//       }
+//     }
+//   } else {
+//     comparedPhone = "different";
+//   }
+//   let comparedEmail;
+//   if (emails.length === contactToEdit.email.length) {
+//     for (let i = 0; i < emails.length; i++) {
+//       if (emails[i] === contactToEdit.email[i]) {
+//         comparedEmail = "same";
+//       } else {
+//         comparedEmail = "different";
+//         break;
+//       }
+//     }
+//   } else {
+//     comparedPhone = "different";
+//   }
+//   if (
+//     inputName.value === contactToEdit.name &&
+//     comparedPhone === "same" &&
+//     comparedEmail === "same"
+//   ) {
+//   } else {
+//     let editedContact = {
+//       id: contactToEdit.id,
+//       date: new Date().toLocaleString(),
+//       name: inputName.value,
+//       number: [...phoneNumbers],
+//       email: [...emails]
+//     };
+//     contactToEdit.history = [...contactToEdit.history, { ...editedContact }];
+//     let newVersion = Object.assign(contactToEdit, editedContact);
+//     let index = store.indexOf(contactToEdit);
+//     let changeValue = document.getElementById(id);
+//     changeValue.children[0].innerHTML = newVersion.name;
+//     changeValue.children[1].innerHTML = newVersion.number;
+//     changeValue.children[2].innerHTML = newVersion.email;
+//     store.splice(index, 1, newVersion);
+//     store.save();
+//     refreshModal();
+//   }
+//   toggleModal("");
+// });
 
 //history
-const showInfo = listen("click", ".info", e => {
-  onNavigate("/contact");
-  let id = e.target.parentElement.parentElement.id;
-  let contactToShow = findID(id);
-  introContact(contactToShow);
-  let history = contactToShow.history;
-  history.map(item => {
-    addTableRowInHistory(item, ".contact-history");
-  });
-});
+// const showInfo = listen("click", ".info", e => {
+//   onNavigate("/contact");
+//   let id = e.target.parentElement.parentElement.id;
+//   let contactToShow = findID(id);
+//   introContact(contactToShow);
+//   let history = contactToShow.history;
+//   history.map(item => {
+//     addTableRowInHistory(item, ".contact-history");
+//   });
+// });
 
 //reseting
 

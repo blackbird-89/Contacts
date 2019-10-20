@@ -1,10 +1,17 @@
-import Router from "./Router.js";
+// import Router from "./Router.js";
 import UI from "./UI.js";
+import Modal from "./Modal.js";
+import History from "./History.js";
 
 UI.renderHeaderAndMain();
 UI.renderContactView();
-UI.displayContacts();
+// UI.displayContacts();
+Modal.renderModal();
 
+window.onload = function() {
+  onNavigate("/");
+  UI.displayContacts();
+};
 /***
  * Event delegation
  */
@@ -49,4 +56,27 @@ listen("click", ".add-contact", e => {
 
 listen("click", ".delete", e => {
   UI.deleteContact(e);
+});
+
+listen("click", ".close-button", () => {
+  Modal.refreshModal();
+  Modal.toggleModal("");
+});
+
+listen("click", ".edit", e => {
+  let id = e.target.parentElement.parentElement.id;
+  Modal.showModal(id);
+});
+
+listen("submit", ".form-modal", e => {
+  e.preventDefault();
+
+  Modal.saveEditedContact(e);
+  Modal.refreshModal();
+  Modal.toggleModal("");
+});
+
+listen("click", ".info", e => {
+  onNavigate("/contact");
+  History.showHistory(e);
 });

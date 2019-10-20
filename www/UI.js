@@ -1,7 +1,6 @@
 import Contact from "./Contact.js";
-import App from "./App.js";
-// import Store from "./Store.js";
-import { store } from "./store.js";
+import Store from "./Store.js";
+import { store } from "./localStorage.js";
 
 class UI {
   static createNewElement(elem, className) {
@@ -283,6 +282,10 @@ class UI {
     );
   };
 
+  /**
+   * Adding new contact to DOm
+   * and storage
+   */
   static addContacttoDOM = contact => {
     this.addTableRow(contact, "#contact-list");
   };
@@ -304,10 +307,10 @@ class UI {
     for (let item of stableEmail) {
       emailAdress = [...emailAdress, ...[item.value]];
     }
-    let id = this.ID();
+    let id = UI.ID();
     let date = new Date().toLocaleString();
     let contact = new Contact(id, date, name, phoneNumber, emailAdress);
-    App.addNewContact(contact);
+    Store.addNewContact(contact);
     //   store.push(contact);
     //   //   contact.history = [...contact.history, { ...contact }];
     //   store.save();
@@ -325,12 +328,17 @@ class UI {
     }
   };
 
+  /**
+   * Removing contacts from the DOM
+   * Deleting contact from local storage, on click
+   */
+
   static deleteContact = e => {
     let elem = e.target;
     this.deleteContactFromDOM(elem);
     if (elem.classList.contains("delete")) {
       let targetId = elem.parentElement.parentElement.id;
-      App.deleteContact(targetId);
+      Store.deleteContact(targetId);
     }
   };
 }

@@ -1,12 +1,31 @@
-let store;
-try {
-  store = JSON.parse(localStorage.store);
-} catch (e) {
-  store = [];
+import { store } from "./localStorage.js";
+
+class Store {
+  static findID = id => {
+    let result = store.find(contact => {
+      return contact.id === id;
+    });
+    return result;
+  };
+
+  static addNewContact = contact => {
+    store.push(contact);
+    //   contact.history = [...contact.history, { ...contact }];
+    store.save();
+  };
+
+  static deleteContact = id => {
+    let itemToDelete = this.findID(id);
+    let index = store.indexOf(itemToDelete);
+    store.splice(index, 1);
+    store.save();
+  };
+
+  static editContact = (contact, newContact) => {
+    let index = store.indexOf(contact);
+    store.splice(index, 1, newContact);
+    store.save();
+  };
 }
 
-store.save = function() {
-  localStorage.store = JSON.stringify(this);
-};
-
-export { store };
+export default Store;
