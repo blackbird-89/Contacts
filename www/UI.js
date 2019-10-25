@@ -111,7 +111,6 @@ class UI {
     let labels = [];
     for (let i = 0; i < labelTags.length; i++) {
       let newLabel = this.createLabels(labelTags[i][0]);
-      console.log(labelTags[i][i]);
       newLabel.className += labelTags[i][1];
       newLabel.innerHTML = labelTags[i][2];
       labels.push(newLabel);
@@ -353,6 +352,10 @@ class UI {
     Store.addNewContact(contact);
     this.addContacttoDOM(contact);
     this.clearFields();
+    this.rerenderForm();
+    this.renderForm();
+    this.renderTable();
+    this.displayContacts();
   };
 
   /**

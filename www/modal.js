@@ -157,7 +157,6 @@ class Modal {
   static saveEditedContact = e => {
     let id = e.target.parentElement.parentElement.id;
     let contactToEdit = Store.findID(id);
-    console.log(contactToEdit);
     let inputsPhone = [];
     let inputsEmail = [];
     let inputName = document.querySelector(".inputname-modal");
